@@ -27,9 +27,13 @@ check-cuda: ## Check CUDA availability
 	@python3 -c "import torch; print(f'cuDNN version: {torch.backends.cudnn.version()}') if torch.cuda.is_available() else None"
 	@python3 -c "import torch; print(f'Number of GPUs: {torch.cuda.device_count()}') if torch.cuda.is_available() else None"
 
-test: ## Run tests on all notebooks (syntax check)
-	@echo "$(BLUE)Testing notebooks...$(NC)"
+test: ## Run tests on all notebooks (integrity check)
+	@echo "$(BLUE)Testing notebooks (integrity)...$(NC)"
 	@python3 scripts/verify_notebooks.py
+
+test-execution: ## Run and verify all notebooks (runtime check - may take a while)
+	@echo "$(BLUE)Verifying notebook execution...$(NC)"
+	@python3 scripts/verify_notebooks.py --execute --timeout 300
 
 count-notebooks: ## Count total notebooks
 	@echo "$(BLUE)Counting notebooks...$(NC)"

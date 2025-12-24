@@ -19,6 +19,7 @@ tensorboard>=2.14.0
 # Image Processing
 Pillow>=10.0.0
 opencv-python>=4.8.0
+albumentations>=1.3.0
 
 # Natural Language Processing
 transformers>=4.30.0
