@@ -103,29 +103,22 @@ Classical ML with PyTorch:
 ### Installation
 
 1. **Clone or download this repository**
-
-```bash
-cd torch
-```
-
 2. **Create a virtual environment** (recommended)
-
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
-
 3. **Install dependencies**
-
 ```bash
-pip install -r requirements.txt
+make install
 ```
-
-4. **Verify installation**
-
+4. **Download datasets**
 ```bash
-python -c "import torch; print(f'PyTorch {torch.__version__} installed successfully!')"
-python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
+make download-data
+```
+5. **Verify installation**
+```bash
+make check-cuda
 ```
 
 ## 💻 Usage
@@ -142,11 +135,11 @@ jupyter lab
 
 Start with `basics/01_tensors.ipynb` and progress through each section.
 
-### Run Tests
-
+### Run Tests (Automatic Integrity Check)
 ```bash
 make test
 ```
+This script verifies that all 24 notebooks are valid and can be loaded correctly.
 
 ### Quick Reference
 
@@ -186,13 +179,16 @@ torch/
 │   ├── 06_optimization.ipynb
 │   └── 07_reinforcement_learning.ipynb
 │
-└── ml_algorithms/                     # Classical ML
-    ├── 01_linear_models.ipynb
-    ├── 02_trees.ipynb
-    ├── 03_svm.ipynb
-    ├── 04_clustering.ipynb
-    ├── 05_dimensionality_reduction.ipynb
-    └── 06_ensembles.ipynb
+├── ml_algorithms/                     # Classical ML
+│   ├── 01_linear_models.ipynb
+│   ├── 02_trees.ipynb
+│   ├── 03_svm.ipynb
+│   ├── 04_clustering.ipynb
+│   ├── 05_dimensionality_reduction.ipynb
+│   └── 06_ensembles.ipynb
+│
+└── scripts/                           # Utility scripts
+    └── verify_notebooks.py            # Notebook integrity checker
 ```
 
 ## 🎓 Learning Path
