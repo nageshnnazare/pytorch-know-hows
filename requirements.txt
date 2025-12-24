@@ -1,0 +1,42 @@
+# PyTorch Tutorial Course Requirements
+# Install with: pip install -r requirements.txt
+
+# Core Deep Learning
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tensorboard>=2.14.0
+
+# Image Processing
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Natural Language Processing
+transformers>=4.30.0
+tokenizers>=0.13.0
+sentencepiece>=0.1.99
+
+# Utilities
+tqdm>=4.65.0
+jupyter>=1.0.0
+ipython>=8.12.0
+
+# Model Training Utilities
+pytorch-lightning>=2.0.0
+accelerate>=0.20.0
+
+# Optimization
+optuna>=3.3.0
+
+# Testing
+pytest>=7.4.0
+
