@@ -1,0 +1,2992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nageshnnazare/pytorch-know-hows &mdash; Documentation</title>
+<!-- Favicon: the brand "book" glyph (same as the sidebar toggle) on an accent tile -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%236cb1f0'/%3E%3Cg%20transform='translate(8%208)'%20fill='%23ffffff'%3E%3Cpath%20d='M0%201.75A.75.75%200%200%201%20.75%201h4.253c1.227%200%202.317.59%203%201.501A3.743%203.743%200%200%201%2011.006%201h4.245a.75.75%200%200%201%20.75.75v10.5a.75.75%200%200%201-.75.75h-4.507a2.25%202.25%200%200%200-1.591.659l-.622.621a.75.75%200%200%201-1.06%200l-.622-.621A2.25%202.25%200%200%200%205.258%2013H.75a.75.75%200%200%201-.75-.75Zm7.251%2010.324.004-5.073-.002-2.253A2.25%202.25%200%200%200%205.003%202.5H1.5v9h3.757a3.75%203.75%200%200%201%201.994.574ZM8.755%204.75l-.004%207.322a3.752%203.752%200%200%201%201.992-.572H14.5v-9h-3.495a2.25%202.25%200%200%200-2.25%202.25Z'/%3E%3C/g%3E%3C/svg%3E">
+<!-- Typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<!-- highlight.js for syntax highlighting (VS Code dark+ theme) -->
+<link id="hljs-theme" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+/* === CSS Custom Properties for theming === */
+/* - Nagesh N Nazare - */
+:root {
+    --header-height: 56px;
+    --sidebar-width: 280px;
+    --content-max: none;
+
+    --font-sans: "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "JetBrains Mono", "SF Mono", "Cascadia Code", "Fira Code", "Consolas", monospace;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.35);
+    --shadow-lg: 0 24px 64px rgba(0,0,0,0.55);
+
+    --bg-body: #0b0d12;
+    --bg-header: rgba(15,17,23,0.82);
+    /* Apple-style "liquid glass" navbar (dark) */
+    --glass-bg: linear-gradient(180deg, rgba(28,31,42,0.62) 0%, rgba(13,15,20,0.46) 100%);
+    --glass-tint: rgba(20,22,30,0.30);
+    --glass-border: rgba(255,255,255,0.10);
+    --glass-highlight: rgba(255,255,255,0.14);
+    --glass-sheen: rgba(255,255,255,0.07);
+    --glass-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    --glass-blur: 22px;
+    /* Floating glass controls (dark) */
+    --ctrl-bg: rgba(255,255,255,0.07);
+    --ctrl-bg-hover: rgba(255,255,255,0.16);
+    --ctrl-border: rgba(255,255,255,0.16);
+    --ctrl-shadow: 0 2px 8px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.14);
+    --ctrl-shadow-hover: 0 6px 16px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.22);
+    --bg-sidebar: #0e1016;
+    --bg-content: #0b0d12;
+    --bg-code-block: #14161f;
+    --bg-code-inline: #1b1e2a;
+    --bg-heading: transparent;
+    --bg-table-even: #14161f;
+    --bg-table-head: #181b27;
+    --bg-blockquote: #13161f;
+    --bg-search-input: #1b1e2a;
+    --bg-search-overlay-inner: #13151d;
+    --bg-search-overlay-bg: rgba(4,5,8,0.66);
+    --bg-sr-item-hover: #1b1e2a;
+    --bg-sr-item-border: #1c1f2b;
+    --bg-highlight: #6b3d12;
+
+    --border-main: #1f2230;
+    --border-header: #242838;
+    --border-input: #2a2e40;
+    --border-table: #262a3a;
+    --border-code: #23273a;
+
+    --text-primary: #d6d8e3;
+    --text-secondary: #969ab4;
+    --text-muted: #5e6280;
+    --text-heading-h1: #6cb1f0;
+    --text-heading-h2: #e0a07f;
+    --text-heading-h3: #e2e08c;
+    --text-heading-h4: #82c46b;
+    --text-code-inline: #e0a07f;
+    --text-link: #6cb1f0;
+    --text-link-hover: #9bcbf7;
+    --text-strong: #e8eaf2;
+    --text-tab-active: #6cb1f0;
+    --text-mark-fg: #ffd98a;
+    --text-blockquote: #aab0cc;
+    --text-table-header: #6cb1f0;
+
+    --accent: #6cb1f0;
+    --accent-soft: rgba(108,177,240,0.14);
+    --accent-strong: rgba(108,177,240,0.32);
+
+    --sidebar-toggle-bg: #1b1e2a;
+    --sidebar-toggle-border: #2a2e40;
+    --sidebar-toggle-hover: #262a3a;
+    --nav-active-bg: rgba(108,177,240,0.12);
+    --nav-doc-active-bg: var(--accent);
+    --nav-doc-active-fg: #0a0f17;
+    --scrollbar-thumb: #2a2e40;
+}
+
+[data-theme="light"] {
+    --shadow-sm: 0 1px 2px rgba(16,24,40,0.06);
+    --shadow-md: 0 8px 24px rgba(16,24,40,0.10);
+    --shadow-lg: 0 24px 64px rgba(16,24,40,0.18);
+
+    --bg-body: #f6f7fb;
+    --bg-header: rgba(255,255,255,0.85);
+    /* Apple-style "liquid glass" navbar (light) */
+    --glass-bg: linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(245,247,251,0.55) 100%);
+    --glass-tint: rgba(255,255,255,0.35);
+    --glass-border: rgba(255,255,255,0.65);
+    --glass-highlight: rgba(255,255,255,0.85);
+    --glass-sheen: rgba(255,255,255,0.55);
+    --glass-shadow: 0 10px 30px rgba(16,24,40,0.12);
+    --glass-blur: 22px;
+    /* Floating glass controls (light) */
+    --ctrl-bg: rgba(255,255,255,0.6);
+    --ctrl-bg-hover: rgba(255,255,255,0.92);
+    --ctrl-border: rgba(16,24,40,0.10);
+    --ctrl-shadow: 0 2px 8px rgba(16,24,40,0.12), inset 0 1px 0 rgba(255,255,255,0.85);
+    --ctrl-shadow-hover: 0 6px 16px rgba(16,24,40,0.18), inset 0 1px 0 rgba(255,255,255,0.95);
+    --bg-sidebar: #ffffff;
+    --bg-content: #ffffff;
+    --bg-code-block: #f4f5fa;
+    --bg-code-inline: #eceef5;
+    --bg-heading: transparent;
+    --bg-table-even: #f7f8fc;
+    --bg-table-head: #eef1f8;
+    --bg-blockquote: #f4f6fb;
+    --bg-search-input: #f1f2f8;
+    --bg-search-overlay-inner: #ffffff;
+    --bg-search-overlay-bg: rgba(16,24,40,0.28);
+    --bg-sr-item-hover: #f1f3f9;
+    --bg-sr-item-border: #ebeef5;
+    --bg-highlight: #ffe9a8;
+
+    --border-main: #e4e7f0;
+    --border-header: #e0e3ee;
+    --border-input: #d4d8e6;
+    --border-table: #dde1ec;
+    --border-code: #e4e7f0;
+
+    --text-primary: #1f2433;
+    --text-secondary: #5a6078;
+    --text-muted: #8b90a8;
+    --text-heading-h1: #1f6fc4;
+    --text-heading-h2: #b25a30;
+    --text-heading-h3: #8a7610;
+    --text-heading-h4: #3d7a22;
+    --text-code-inline: #b25a30;
+    --text-link: #1f6fc4;
+    --text-link-hover: #14508f;
+    --text-strong: #11151f;
+    --text-tab-active: #1f6fc4;
+    --text-mark-fg: #6b4e00;
+    --text-blockquote: #4a5066;
+    --text-table-header: #1f6fc4;
+
+    --accent: #1f6fc4;
+    --accent-soft: rgba(31,111,196,0.10);
+    --accent-strong: rgba(31,111,196,0.22);
+
+    --sidebar-toggle-bg: #ffffff;
+    --sidebar-toggle-border: #e0e3ee;
+    --sidebar-toggle-hover: #eef1f8;
+    --nav-active-bg: rgba(31,111,196,0.10);
+    --nav-doc-active-bg: var(--accent);
+    --nav-doc-active-fg: #ffffff;
+    --scrollbar-thumb: #d0d4e2;
+}
+
+/* === Reset & base === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { color-scheme: dark; scroll-behavior: smooth; }
+[data-theme="light"] { color-scheme: light; }
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-body);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background 0.25s, color 0.25s;
+}
+
+::selection { background: var(--accent-strong); }
+
+/* === GitHub-style (Octicon) inline icons === */
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    flex-shrink: 0;
+    vertical-align: text-bottom;
+    overflow: visible;
+}
+
+/* === Header bar (doc selector + search + theme toggle) ===
+   The bar itself is fully transparent; the liquid-glass effect lives only on
+   the individual floating controls inside it. */
+.header-bar {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--header-height);
+    pointer-events: none;
+}
+/* Re-enable interaction for the actual controls (the bar is click-through). */
+.header-inner > * { pointer-events: auto; }
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 18px;
+    height: 100%;
+    min-width: 0;
+    position: relative;
+}
+
+/* iOS-style condensed title: hidden until the page is scrolled down. */
+.nav-doc-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% + 8px));
+    max-width: min(60vw, 520px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    box-shadow: var(--ctrl-shadow);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 7px 18px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+/* Smoothly fade/lift the menu items in and out as the bar condenses. */
+.brand-name, .doc-selector, .search-widget {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Condensed: keep the toggle icon, drop the collection name + menu items,
+   and reveal the centered document title. */
+body.nav-condensed .brand-name,
+body.nav-condensed .doc-selector,
+body.nav-condensed .search-widget {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+}
+body.nav-condensed .nav-doc-title {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 2px;
+}
+/* The document title is the dominant element of the navbar. */
+.brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    /*text-transform: capitalize;*/
+    color: var(--accent);
+    background: linear-gradient(180deg, var(--text-link-hover), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.doc-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+.doc-selector-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.doc-selector-label .icon { width: 14px; height: 14px; }
+
+.doc-select {
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    box-shadow: var(--ctrl-shadow);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 30px 7px 14px;
+    border-radius: 999px;
+    outline: none;
+    cursor: pointer;
+    min-width: 160px;
+    max-width: min(420px, 42vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: border-color 0.15s, background 0.2s, color 0.25s, box-shadow 0.2s, transform 0.15s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.doc-select:hover {
+    background: var(--ctrl-bg-hover);
+    box-shadow: var(--ctrl-shadow-hover);
+    transform: translateY(-1px);
+}
+.doc-select:focus { border-color: var(--accent); }
+
+/* === Floating circular icon buttons (Apple-style) ===
+   The title/sidebar toggle, theme toggle and search button share one identical
+   look so every navbar icon matches. */
+.brand-toggle,
+.theme-toggle,
+.search-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    box-shadow: var(--ctrl-shadow);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.15s, border-color 0.25s, box-shadow 0.2s, transform 0.15s;
+}
+.brand-toggle:hover,
+.theme-toggle:hover,
+.search-toggle:hover {
+    background: var(--ctrl-bg-hover);
+    color: var(--accent);
+    box-shadow: var(--ctrl-shadow-hover);
+    transform: translateY(-1px);
+}
+.brand-toggle:active,
+.theme-toggle:active,
+.search-toggle:active { transform: translateY(0) scale(0.94); }
+.brand-toggle .icon,
+.theme-toggle .icon,
+.search-toggle .icon { width: 17px; height: 17px; }
+
+/* The brand/sidebar toggle icon carries the brand accent color. */
+.brand-toggle { color: var(--accent); }
+.brand-toggle:hover { color: var(--text-link-hover); }
+
+/* === Search widget === */
+.search-widget {
+    margin-left: auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.search-kbd {
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    box-shadow: var(--ctrl-shadow);
+    border-radius: 999px;
+    padding: 3px 9px;
+    line-height: 1.4;
+}
+
+/* === Search results panel === */
+.search-results {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 200;
+    background: var(--bg-search-overlay-bg);
+}
+
+.search-results.open { display: flex; justify-content: center; padding-top: 60px; }
+
+.search-results-inner {
+    background: var(--bg-search-overlay-inner);
+    border: 1px solid var(--border-header);
+    border-radius: 8px;
+    width: 720px;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+    transition: background 0.25s, border-color 0.25s;
+}
+
+.sr-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-input);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.sr-header input {
+    flex: 1;
+    background: var(--bg-body);
+    border: 1px solid var(--border-input);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    outline: none;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+.sr-header input:focus { border-color: var(--text-tab-active); }
+.sr-header input::placeholder { color: var(--text-muted); }
+
+.sr-count {
+    color: var(--text-muted);
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.sr-body {
+    overflow-y: auto;
+    flex: 1;
+    padding: 4px 0;
+}
+
+.sr-empty {
+    color: var(--text-muted);
+    text-align: center;
+    padding: 32px 16px;
+    font-size: 14px;
+}
+
+.sr-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--bg-sr-item-border);
+    transition: background 0.1s;
+}
+.sr-item:hover, .sr-item.sr-active { background: var(--bg-sr-item-hover); }
+
+.sr-item-tab {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tab-active);
+    margin-bottom: 2px;
+}
+
+.sr-item-heading {
+    font-size: 12px;
+    color: var(--text-heading-h2);
+    margin-bottom: 3px;
+}
+
+.sr-item-snippet {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.sr-item-snippet mark, .search-highlight {
+    background: var(--bg-highlight);
+    color: var(--text-mark-fg);
+    border-radius: 2px;
+    padding: 0 1px;
+}
+
+/* === Page layout: sidebar + content === */
+.page-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* === Sidebar nav ===
+   The sidebar spans the full viewport height (starting at the very top, behind
+   the transparent navbar) so its background meets the navbar with no seam, and
+   the navbar title sits visually on top of the sidebar when it's open. */
+.sidebar-nav {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-main);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding-top: var(--header-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 0;
+    transition: width 0.2s, min-width 0.2s, padding 0.2s, opacity 0.2s, background 0.25s, border-color 0.25s;
+    z-index: 50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--bg-sidebar);
+}
+.sidebar-nav::-webkit-scrollbar { width: 5px; }
+.sidebar-nav::-webkit-scrollbar-track { background: var(--bg-sidebar); }
+.sidebar-nav::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+.sidebar-nav.collapsed {
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nav-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    padding: 14px 14px 6px;
+}
+.nav-title .icon { width: 13px; height: 13px; opacity: 0.85; }
+
+.nav-list {
+    list-style: none;
+    padding: 0 6px 16px;
+    margin: 0;
+}
+
+.nav-list a {
+    display: block;
+    padding: 3px 10px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    border-left: 2px solid transparent;
+    transition: color 0.12s, background 0.12s, border-color 0.12s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-list a:hover {
+    color: var(--text-primary);
+    background: var(--bg-code-block);
+}
+
+.nav-list a.nav-active {
+    color: var(--text-tab-active);
+    background: var(--nav-active-bg);
+    border-left-color: var(--text-tab-active);
+}
+
+.nav-list .nav-h1 { padding-left: 10px; font-weight: 600; color: var(--text-secondary); margin-top: 6px; }
+.nav-list .nav-h2 { padding-left: 20px; }
+.nav-list .nav-h3 { padding-left: 30px; font-size: 11px; }
+.nav-list .nav-h4 { padding-left: 40px; font-size: 11px; color: var(--text-muted); }
+
+/* Active document: a solid, filled pill so it stands out distinctly from the
+   subtle heading scroll-spy highlight. */
+#docList a.nav-doc-active {
+    color: var(--nav-doc-active-fg);
+    background: var(--nav-doc-active-bg);
+    border-left-color: transparent;
+    font-weight: 700;
+    box-shadow: 0 2px 8px var(--accent-strong);
+}
+#docList a.nav-doc-active:hover {
+    color: var(--nav-doc-active-fg);
+    background: var(--nav-doc-active-bg);
+}
+
+.sidebar-section + .sidebar-section {
+    border-top: 1px solid var(--border-main);
+}
+
+/* === Tab content === */
+.content-area {
+    flex: 1;
+    min-width: 0;
+    padding: calc(var(--header-height) + 28px) 40px 80px;
+}
+
+.tab-content {
+    display: none;
+    max-width: var(--content-max);
+    margin: 0 auto;
+    background: var(--bg-content);
+    border: 1px solid var(--border-main);
+    border-radius: var(--radius-lg);
+    padding: 40px 48px 56px;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.25s, border-color 0.25s;
+}
+.tab-content.active { display: block; animation: fade-in 0.28s ease; }
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* === Headings === */
+.tab-content h1, .tab-content h2, .tab-content h3,
+.tab-content h4, .tab-content h5, .tab-content h6 {
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    scroll-margin-top: calc(var(--header-height) + 18px);
+    transition: color 0.25s;
+}
+
+.tab-content h1 {
+    font-size: 2.0em;
+    color: var(--text-heading-h1);
+    margin: 0 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-main);
+}
+.tab-content h1:first-child { margin-top: 0; }
+
+.tab-content h2 {
+    font-size: 1.5em;
+    color: var(--text-heading-h2);
+    margin: 40px 0 14px;
+    padding-left: 14px;
+    border-left: 3px solid var(--text-heading-h2);
+}
+
+.tab-content h3 {
+    font-size: 1.22em;
+    color: var(--text-heading-h3);
+    margin: 30px 0 10px;
+}
+
+.tab-content h4 {
+    font-size: 1.08em;
+    color: var(--text-heading-h4);
+    margin: 24px 0 8px;
+}
+
+.tab-content h5 {
+    font-size: 1.0em;
+    color: var(--text-heading-h1);
+    margin: 18px 0 6px;
+}
+
+.tab-content h6 {
+    font-size: 0.92em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin: 16px 0 6px;
+}
+
+/* === Paragraphs & text === */
+.tab-content p { margin: 12px 0; }
+
+.tab-content strong { color: var(--text-strong); font-weight: 700; }
+.tab-content em { color: var(--text-primary); font-style: italic; }
+
+/* === Inline code === */
+.tab-content code {
+    font-family: var(--font-mono);
+    color: var(--text-code-inline);
+    background: var(--bg-code-inline);
+    padding: 0.12em 0.42em;
+    border-radius: 5px;
+    font-size: 0.86em;
+    border: 1px solid var(--border-code);
+    transition: background 0.25s, color 0.25s;
+}
+
+/* === Fenced code blocks === */
+.tab-content pre {
+    background: var(--bg-code-block);
+    border: 1px solid var(--border-code);
+    border-radius: var(--radius-md);
+    padding: 18px 18px 16px;
+    margin: 16px 0;
+    overflow-x: auto;
+    line-height: 1.55;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.25s, border-color 0.25s;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+.tab-content pre::-webkit-scrollbar { height: 8px; }
+.tab-content pre::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+.tab-content pre code {
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0;
+    border: none;
+    font-size: 13.5px;
+}
+
+/* Override highlight.js background to match our theme */
+.tab-content pre code.hljs {
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Language label on code blocks */
+.code-lang-label {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    pointer-events: none;
+    opacity: 0.75;
+}
+
+/* Copy-to-clipboard button */
+.code-copy-btn {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-code-inline);
+    border: 1px solid var(--border-input);
+    border-radius: 6px;
+    padding: 4px 9px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+}
+.tab-content pre:hover .code-copy-btn { opacity: 1; transform: none; }
+.code-copy-btn:hover { color: var(--text-primary); background: var(--sidebar-toggle-hover); border-color: var(--accent); }
+.code-copy-btn.copied { color: var(--text-heading-h4); border-color: var(--text-heading-h4); }
+.tab-content pre:hover .code-lang-label { opacity: 0; }
+
+/* === Lists === */
+.tab-content ul, .tab-content ol {
+    margin: 12px 0 12px 4px;
+    padding-left: 26px;
+}
+.tab-content ul { list-style: none; }
+.tab-content ul > li { position: relative; padding-left: 4px; }
+.tab-content ul > li::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: 0.72em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.85;
+}
+.tab-content ul ul > li::before {
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    width: 6px; height: 6px;
+}
+
+.tab-content li { margin: 6px 0; }
+.tab-content ol li::marker { color: var(--accent); font-weight: 700; }
+
+.tab-content li > ul, .tab-content li > ol { margin-top: 6px; margin-bottom: 6px; }
+
+/* Task-list checkboxes (- [ ] / - [x]) */
+.tab-content li.task-list-item { list-style: none; padding-left: 0; }
+.tab-content li.task-list-item::before { display: none; }
+.tab-content li.task-list-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 17px; height: 17px;
+    margin: 0 9px -3px -22px;
+    border: 1.5px solid var(--border-input);
+    border-radius: 5px;
+    background: var(--bg-code-inline);
+    position: relative;
+    vertical-align: baseline;
+    cursor: default;
+}
+.tab-content li.task-list-item input[type="checkbox"]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+.tab-content li.task-list-item input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px; top: 1px;
+    width: 4px; height: 9px;
+    border: solid #0b0d12;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* === Links === */
+.tab-content a {
+    color: var(--text-link);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-strong);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    border-radius: 2px;
+}
+.tab-content a:hover {
+    color: var(--text-link-hover);
+    border-bottom-color: var(--text-link-hover);
+    background: var(--accent-soft);
+}
+/* Cross-document links get a subtle trailing arrow to signal navigation */
+.tab-content a.xref-link::after {
+    content: "\2197";
+    font-size: 0.78em;
+    margin-left: 2px;
+    opacity: 0.55;
+    vertical-align: super;
+    line-height: 0;
+}
+
+/* === Tables === */
+.tab-content table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 18px 0;
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid var(--border-table);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-content th {
+    background: var(--bg-table-head);
+    color: var(--text-table-header);
+    font-weight: 700;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-table);
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.tab-content th + th, .tab-content td + td { border-left: 1px solid var(--border-table); }
+
+.tab-content td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border-table);
+    transition: border-color 0.25s;
+}
+.tab-content tr:last-child td { border-bottom: none; }
+
+.tab-content tbody tr:nth-child(even) td {
+    background: var(--bg-table-even);
+    transition: background 0.25s;
+}
+.tab-content tbody tr:hover td { background: var(--accent-soft); }
+
+/* === Horizontal rules === */
+.tab-content hr {
+    border: none;
+    border-top: 1px solid var(--border-main);
+    margin: 32px 0;
+}
+
+/* === Blockquotes === */
+.tab-content blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 12px 18px;
+    margin: 18px 0;
+    color: var(--text-blockquote);
+    background: var(--bg-blockquote);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    transition: background 0.25s, color 0.25s;
+}
+.tab-content blockquote p:first-child { margin-top: 0; }
+.tab-content blockquote p:last-child { margin-bottom: 0; }
+
+/* === Responsive === */
+@media (max-width: 900px) {
+    .brand { display: none; }
+    .content-area { padding: 20px 16px 64px; }
+    .tab-content { padding: 26px 22px 40px; border-radius: var(--radius-md); }
+    .search-widget input { width: 150px; }
+    .search-widget input:focus { width: 200px; }
+    .search-kbd { display: none; }
+}
+@media (max-width: 600px) {
+    .doc-selector-label { display: none; }
+}
+
+/* === Print === */
+@media print {
+    .header-bar, .sidebar-nav, .sidebar-toggle { display: none !important; }
+    .tab-content { display: block !important; page-break-after: always; }
+    body { background: white; color: #222; }
+    .search-results { display: none !important; }
+    .page-layout { display: block; }
+}
+</style>
+</head>
+<body data-theme="dark" class="sidebar-collapsed">
+
+<div class="header-bar">
+  <div class="header-inner" id="headerInner">
+    <div class="brand">
+      <button class="brand-toggle" id="sidebarToggle" title="Toggle sidebar (Ctrl+B)" aria-label="Toggle sidebar">
+        <svg class="icon brand-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg>
+      </button>
+      <span class="brand-name">nageshnnazare/pytorch-know-hows</span>
+    </div>
+    <div class="doc-selector">
+      <select class="doc-select" id="docSelect" title="Switch document"></select>
+    </div>
+    <div class="search-widget">
+      <button class="search-toggle" id="searchTrigger" title="Search all documents (Ctrl+K)" aria-label="Search">
+        <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"></path></svg>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode (Ctrl+Shift+L)" aria-label="Toggle theme"></button>
+    </div>
+    <div class="nav-doc-title" id="navDocTitle" aria-hidden="true"></div>
+  </div>
+</div>
+
+<div class="search-results" id="searchOverlay">
+  <div class="search-results-inner">
+    <div class="sr-header">
+      <input type="text" id="searchInput" placeholder="Search across all documentation..." autofocus>
+      <span class="sr-count" id="srCount"></span>
+    </div>
+    <div class="sr-body" id="srBody">
+      <div class="sr-empty">Type to search across all tabs</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-layout">
+  <nav class="sidebar-nav collapsed" id="sidebarNav">
+    <div class="sidebar-section" id="docListSection">
+      <div class="nav-title">
+        <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25Zm9.5 0v6.396l1.215-.812a.25.25 0 0 1 .27 0l1.215.812V1.75a.25.25 0 0 0-.25-.25h-2.2a.25.25 0 0 0-.25.25Zm-1.5 0a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25H8Zm9.5 12.5V1.75a.25.25 0 0 0-.25-.25H13v8.5a.75.75 0 0 1-1.166.624L10 11.149l-1.834 1.225A.75.75 0 0 1 8 11.75V14.5h6.25a.25.25 0 0 0 .25-.25Z"></path></svg>
+        Documents
+      </div>
+      <ul class="nav-list" id="docList"></ul>
+    </div>
+    <div class="sidebar-section" id="tocSection">
+      <div class="nav-title">
+        <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.75 2.5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5Zm0 5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5Zm0 5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5ZM2 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-6a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM2 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>
+        On this page
+      </div>
+      <ul class="nav-list" id="navList"></ul>
+    </div>
+  </nav>
+  <div class="content-area">
+    <div id="tabPanels"></div>
+  </div>
+</div>
+
+<script>
+const TAB_DATA = [
+  { name: `1. README`, path: `README.md`, dir: ``, body: `<h1 id="pytorch-tutorial-course---complete-guide">PyTorch Tutorial Course - Complete Guide</h1>
+<div align="center">
+
+![PyTorch](https://img.shields.io/badge/PyTorch-2.1+-EE4C2C?logo=pytorch&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Notebooks](https://img.shields.io/badge/Notebooks-24-orange.svg)
+
+**A comprehensive, hands-on PyTorch course from basics to advanced topics**
+
+[Getting Started](#getting-started) • [Course Structure](#course-structure) • [Installation](#installation) • [Usage](#usage)
+
+</div>
+
+<hr />
+<h2 id="-about-this-course">📚 About This Course</h2>
+<p>This is a <strong>complete PyTorch tutorial course</strong> designed to take you from beginner to advanced practitioner. The course includes:</p>
+<ul>
+<li>✅ <strong>24 comprehensive Jupyter notebooks</strong></li>
+<li>✅ <strong>Detailed explanations</strong> with ASCII diagrams</li>
+<li>✅ <strong>Hands-on code examples</strong> you can run immediately</li>
+<li>✅ <strong>Practice exercises</strong> at the end of each notebook</li>
+<li>✅ <strong>Real-world projects</strong> and implementations</li>
+<li>✅ <strong>ML algorithms</strong> implemented in PyTorch</li>
+<li>✅ <strong>Best practices</strong> and common pitfalls</li>
+</ul>
+<h2 id="-who-is-this-for">🎯 Who Is This For?</h2>
+<ul>
+<li><strong>Beginners</strong>: Start with basics, no prior PyTorch knowledge required</li>
+<li><strong>Intermediate</strong>: Deepen your understanding with CNN, RNN, and training techniques</li>
+<li><strong>Advanced</strong>: Master transformers, GANs, and distributed training</li>
+<li><strong>ML Engineers</strong>: Learn to implement classical ML algorithms in PyTorch</li>
+<li><strong>Researchers</strong>: Understand cutting-edge architectures and techniques</li>
+</ul>
+<h2 id="-course-structure">📖 Course Structure</h2>
+<p>The course is organized into four main sections:</p>
+<h3 id="-basics-5-notebooks">🟢 Basics (5 notebooks)</h3>
+<p>Master the fundamentals of PyTorch:</p>
+<ol>
+<li><strong>Tensors and Operations</strong> - Core data structure and operations</li>
+<li><strong>Autograd</strong> - Automatic differentiation engine</li>
+<li><strong>Datasets and DataLoaders</strong> - Efficient data loading</li>
+<li><strong>Neural Network Basics</strong> - Building blocks (layers, activations, loss)</li>
+<li><strong>Training Basics</strong> - Complete training pipeline</li>
+</ol>
+<p><strong>Time</strong>: ~15-20 hours | <strong>Prerequisites</strong>: Basic Python</p>
+<h3 id="-intermediate-6-notebooks">🟡 Intermediate (6 notebooks)</h3>
+<p>Build practical deep learning skills:</p>
+<ol>
+<li><strong>CNN</strong> - Convolutional Neural Networks</li>
+<li><strong>RNN</strong> - Recurrent Neural Networks (LSTM, GRU)</li>
+<li><strong>Advanced Training</strong> - LR scheduling, regularization, mixed precision</li>
+<li><strong>Transfer Learning</strong> - Pretrained models and fine-tuning</li>
+<li><strong>Evaluation</strong> - Metrics, confusion matrices, ROC curves</li>
+<li><strong>Advanced Data</strong> - Custom augmentation, imbalanced data</li>
+</ol>
+<p><strong>Time</strong>: ~25-30 hours | <strong>Prerequisites</strong>: Basics section</p>
+<h3 id="-advanced-7-notebooks">🔴 Advanced (7 notebooks)</h3>
+<p>Master state-of-the-art techniques:</p>
+<ol>
+<li><strong>Transformers</strong> - Attention mechanisms, BERT, GPT concepts</li>
+<li><strong>GANs</strong> - Generative Adversarial Networks</li>
+<li><strong>Advanced Architectures</strong> - ResNet, DenseNet, U-Net</li>
+<li><strong>Custom Modules</strong> - Hooks, custom autograd functions</li>
+<li><strong>Distributed Training</strong> - Multi-GPU, DDP</li>
+<li><strong>Model Optimization</strong> - Quantization, pruning, TorchScript</li>
+<li><strong>Reinforcement Learning</strong> - DQN, policy gradients</li>
+</ol>
+<p><strong>Time</strong>: ~40-50 hours | <strong>Prerequisites</strong>: Intermediate section</p>
+<h3 id="-ml-algorithms-6-notebooks">🤖 ML Algorithms (6 notebooks)</h3>
+<p>Classical ML with PyTorch:</p>
+<ol>
+<li><strong>Linear Models</strong> - Regression, classification</li>
+<li><strong>Tree-Based Models</strong> - Decision trees, random forests</li>
+<li><strong>SVM</strong> - Support vector machines</li>
+<li><strong>Clustering</strong> - K-means, DBSCAN, deep clustering</li>
+<li><strong>Dimensionality Reduction</strong> - PCA, t-SNE, autoencoders</li>
+<li><strong>Ensemble Methods</strong> - Bagging, boosting, stacking</li>
+</ol>
+<p><strong>Time</strong>: ~15-20 hours | <strong>Prerequisites</strong>: Basics section</p>
+<h2 id="-getting-started">🚀 Getting Started</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Python 3.8 or higher</li>
+<li>Basic understanding of Python programming</li>
+<li>Familiarity with NumPy (helpful but not required)</li>
+<li>Linear algebra basics (vectors, matrices)</li>
+</ul>
+<h3 id="installation">Installation</h3>
+<ol>
+<li><strong>Clone or download this repository</strong></li>
+<li><strong>Create a virtual environment</strong> (recommended)</li>
+</ol>
+<pre><code class="language-bash">python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+</code></pre>
+<ol start="3">
+<li><strong>Install dependencies</strong></li>
+</ol>
+<pre><code class="language-bash">make install
+</code></pre>
+<ol start="4">
+<li><strong>Download datasets</strong></li>
+</ol>
+<pre><code class="language-bash">make download-data
+</code></pre>
+<ol start="5">
+<li><strong>Verify installation</strong></li>
+</ol>
+<pre><code class="language-bash">make check-cuda
+</code></pre>
+<h2 id="-usage">💻 Usage</h2>
+<h3 id="start-jupyter">Start Jupyter</h3>
+<pre><code class="language-bash">jupyter notebook
+# or
+jupyter lab
+</code></pre>
+<h3 id="run-notebooks-in-order">Run Notebooks in Order</h3>
+<p>Start with <code>basics/01_tensors.ipynb</code> and progress through each section.</p>
+<h3 id="run-tests-automatic-integrity-check">Run Tests (Automatic Integrity Check)</h3>
+<pre><code class="language-bash">make test
+</code></pre>
+<p>This script verifies that all 24 notebooks are valid and can be loaded correctly.</p>
+<h3 id="quick-reference">Quick Reference</h3>
+<p>Keep <code>QUICK_REFERENCE.md</code> open while coding - it contains all essential PyTorch commands!</p>
+<h2 id="-repository-structure">📂 Repository Structure</h2>
+<pre><code>torch/
+├── README.md                          # This file
+├── COURSE_INDEX.md                    # Detailed course index
+├── QUICK_REFERENCE.md                 # PyTorch quick reference
+├── requirements.txt                   # Python dependencies
+├── Makefile                           # Automation tasks
+│
+├── basics/                            # Fundamentals
+│   ├── 01_tensors.ipynb
+│   ├── 02_autograd.ipynb
+│   ├── 03_datasets.ipynb
+│   ├── 04_neural_networks.ipynb
+│   └── 05_training_basics.ipynb
+│
+├── intermediate/                      # Practical skills
+│   ├── 01_cnn.ipynb
+│   ├── 02_rnn.ipynb
+│   ├── 03_advanced_training.ipynb
+│   ├── 04_transfer_learning.ipynb
+│   ├── 05_evaluation.ipynb
+│   └── 06_data_advanced.ipynb
+│
+├── advanced/                          # State-of-the-art
+│   ├── 01_transformers.ipynb
+│   ├── 02_gans.ipynb
+│   ├── 03_architectures.ipynb
+│   ├── 04_custom_modules.ipynb
+│   ├── 05_distributed.ipynb
+│   ├── 06_optimization.ipynb
+│   └── 07_reinforcement_learning.ipynb
+│
+├── ml_algorithms/                     # Classical ML
+│   ├── 01_linear_models.ipynb
+│   ├── 02_trees.ipynb
+│   ├── 03_svm.ipynb
+│   ├── 04_clustering.ipynb
+│   ├── 05_dimensionality_reduction.ipynb
+│   └── 06_ensembles.ipynb
+│
+└── scripts/                           # Utility scripts
+    └── verify_notebooks.py            # Notebook integrity checker
+</code></pre>
+<h2 id="-learning-path">🎓 Learning Path</h2>
+<h3 id="path-1-complete-beginner--expert-recommended">Path 1: Complete Beginner → Expert (Recommended)</h3>
+<ol>
+<li>Start with <code>basics/</code> (in order)</li>
+<li>Complete <code>intermediate/</code> (in order)</li>
+<li>Choose specialization from <code>advanced/</code></li>
+<li>Supplement with <code>ml_algorithms/</code> as needed</li>
+</ol>
+<p><strong>Duration</strong>: 95-120 hours</p>
+<h3 id="path-2-computer-vision-specialist">Path 2: Computer Vision Specialist</h3>
+<ol>
+<li>Basics → Intermediate 01 (CNN) → Advanced 02 (GANs), 03 (Architectures)</li>
+<li><strong>Projects</strong>: Image classification, object detection, style transfer</li>
+</ol>
+<p><strong>Duration</strong>: 50-60 hours</p>
+<h3 id="path-3-natural-language-processing">Path 3: Natural Language Processing</h3>
+<ol>
+<li>Basics → Intermediate 02 (RNN) → Advanced 01 (Transformers)</li>
+<li><strong>Projects</strong>: Text classification, language modeling, machine translation</li>
+</ol>
+<p><strong>Duration</strong>: 50-60 hours</p>
+<h3 id="path-4-production-ml-engineer">Path 4: Production ML Engineer</h3>
+<ol>
+<li>Basics → All Intermediate → Advanced 05 (Distributed), 06 (Optimization)</li>
+<li><strong>Focus</strong>: Deployment, optimization, scalability</li>
+</ol>
+<p><strong>Duration</strong>: 60-70 hours</p>
+<h2 id="-what-youll-build">📊 What You&rsquo;ll Build</h2>
+<p>Throughout the course, you&rsquo;ll implement:</p>
+<ul>
+<li>✅ MNIST digit classifier</li>
+<li>✅ CIFAR-10 image classifier</li>
+<li>✅ Text sentiment analyzer</li>
+<li>✅ Image-to-image translator (GAN)</li>
+<li>✅ Transformer for sequence modeling</li>
+<li>✅ Object detector</li>
+<li>✅ Autoencoder for anomaly detection</li>
+<li>✅ Reinforcement learning agent</li>
+</ul>
+<h2 id="-key-features">🌟 Key Features</h2>
+<h3 id="comprehensive-coverage">Comprehensive Coverage</h3>
+<ul>
+<li>From basic tensors to advanced transformers</li>
+<li>Theory + implementation for every topic</li>
+<li>Real-world examples and best practices</li>
+</ul>
+<h3 id="hands-on-learning">Hands-On Learning</h3>
+<ul>
+<li>Every concept illustrated with code</li>
+<li>Interactive Jupyter notebooks</li>
+<li>Practice exercises with solutions</li>
+</ul>
+<h3 id="visual-learning">Visual Learning</h3>
+<ul>
+<li>ASCII diagrams for architecture</li>
+<li>Visualization of training progress</li>
+<li>Feature maps and attention weights</li>
+</ul>
+<h3 id="production-ready">Production-Ready</h3>
+<ul>
+<li>Best practices throughout</li>
+<li>Model optimization techniques</li>
+<li>Deployment considerations</li>
+</ul>
+<h2 id="-makefile-commands">🛠️ Makefile Commands</h2>
+<pre><code class="language-bash">make help          # Show all available commands
+make install       # Install dependencies
+make test          # Run all tests
+make clean         # Clean up cache files
+make format        # Format code
+make notebook      # Start Jupyter notebook
+make lab           # Start JupyterLab
+</code></pre>
+<h2 id="-additional-resources">📚 Additional Resources</h2>
+<h3 id="official-documentation">Official Documentation</h3>
+<ul>
+<li><a href="https://pytorch.org/docs/">PyTorch Documentation</a></li>
+<li><a href="https://pytorch.org/tutorials/">PyTorch Tutorials</a></li>
+<li><a href="https://discuss.pytorch.org/">PyTorch Forums</a></li>
+</ul>
+<h3 id="papers-and-research">Papers and Research</h3>
+<ul>
+<li><a href="https://paperswithcode.com/">Papers with Code</a></li>
+<li><a href="https://arxiv.org/list/cs.LG/recent">arXiv</a></li>
+</ul>
+<h3 id="community">Community</h3>
+<ul>
+<li><a href="https://github.com/pytorch/pytorch">PyTorch GitHub</a></li>
+<li><a href="https://github.com/pytorch/examples">PyTorch Examples</a></li>
+<li><a href="https://www.pytorchlightning.ai/">PyTorch Lightning</a></li>
+</ul>
+<h2 id="-contributing">🤝 Contributing</h2>
+<p>This is a learning resource. Feel free to:</p>
+<ul>
+<li>Report issues or errors</li>
+<li>Suggest improvements</li>
+<li>Add more examples</li>
+<li>Translate to other languages</li>
+</ul>
+<h2 id="-license">📝 License</h2>
+<p>This course is provided for educational purposes. All code is available under the MIT License.</p>
+<h2 id="-acknowledgments">⭐ Acknowledgments</h2>
+<p>This course synthesizes knowledge from:</p>
+<ul>
+<li>PyTorch official tutorials</li>
+<li>Research papers and textbooks</li>
+<li>Community best practices</li>
+<li>Real-world production experience</li>
+</ul>
+<h2 id="-contact--support">📧 Contact &amp; Support</h2>
+<p>Questions? Suggestions?</p>
+<ul>
+<li>Open an issue</li>
+<li>Check existing notebooks for examples</li>
+<li>Refer to <code>QUICK_REFERENCE.md</code> for quick answers</li>
+</ul>
+<hr />
+<div align="center">
+
+**Happy Learning! 🚀**
+
+*Master PyTorch • Build Amazing AI Applications • Join the Deep Learning Revolution*
+
+</div>` },
+  { name: `2. Course Index`, path: `COURSE_INDEX.md`, dir: ``, body: `<h1 id="pytorch-tutorial-course---complete-index">PyTorch Tutorial Course - Complete Index</h1>
+<p>Welcome to the comprehensive PyTorch tutorial course! This course takes you from absolute beginner to advanced practitioner in deep learning with PyTorch.</p>
+<h2 id="-course-structure">📚 Course Structure</h2>
+<h3 id="-basics-start-here">🟢 BASICS (Start Here!)</h3>
+<h4 id="01-tensors-and-operations-basics01_tensorsipynb">01. Tensors and Operations (<code>basics/01_tensors.ipynb</code>)</h4>
+<ul>
+<li>What are tensors?</li>
+<li>Creating tensors (zeros, ones, random, from data)</li>
+<li>Tensor operations (arithmetic, matrix operations)</li>
+<li>Indexing, slicing, and reshaping</li>
+<li>GPU acceleration with CUDA</li>
+<li><strong>Prerequisites:</strong> Basic Python</li>
+<li><strong>Duration:</strong> 2-3 hours</li>
+</ul>
+<h4 id="02-autograd---automatic-differentiation-basics02_autogradipynb">02. Autograd - Automatic Differentiation (<code>basics/02_autograd.ipynb</code>)</h4>
+<ul>
+<li>Understanding computational graphs</li>
+<li>Gradient computation</li>
+<li><code>requires_grad</code> and gradient tracking</li>
+<li>Backward propagation</li>
+<li>Gradient accumulation</li>
+<li><strong>Prerequisites:</strong> 01_tensors.ipynb</li>
+<li><strong>Duration:</strong> 2 hours</li>
+</ul>
+<h4 id="03-datasets-and-dataloaders-basics03_datasetsipynb">03. Datasets and DataLoaders (<code>basics/03_datasets.ipynb</code>)</h4>
+<ul>
+<li>Built-in datasets (MNIST, CIFAR, etc.)</li>
+<li>Custom datasets</li>
+<li>Data transformations</li>
+<li>DataLoader and batching</li>
+<li>Data augmentation basics</li>
+<li><strong>Prerequisites:</strong> 01_tensors.ipynb</li>
+<li><strong>Duration:</strong> 2-3 hours</li>
+</ul>
+<h4 id="04-neural-network-basics-basics04_neural_networksipynb">04. Neural Network Basics (<code>basics/04_neural_networks.ipynb</code>)</h4>
+<ul>
+<li>nn.Module and building blocks</li>
+<li>Linear layers and activations</li>
+<li>Forward pass</li>
+<li>Loss functions</li>
+<li>Simple network examples</li>
+<li><strong>Prerequisites:</strong> 01_tensors.ipynb, 02_autograd.ipynb</li>
+<li><strong>Duration:</strong> 3-4 hours</li>
+</ul>
+<h4 id="05-training-your-first-model-basics05_training_basicsipynb">05. Training Your First Model (<code>basics/05_training_basics.ipynb</code>)</h4>
+<ul>
+<li>Complete training loop</li>
+<li>Optimizers (SGD, Adam)</li>
+<li>Training vs evaluation mode</li>
+<li>Saving and loading models</li>
+<li>MNIST classifier example</li>
+<li><strong>Prerequisites:</strong> All previous basics</li>
+<li><strong>Duration:</strong> 3-4 hours</li>
+</ul>
+<h3 id="-intermediate-building-expertise">🟡 INTERMEDIATE (Building Expertise)</h3>
+<h4 id="01-convolutional-neural-networks-intermediate01_cnnipynb">01. Convolutional Neural Networks (<code>intermediate/01_cnn.ipynb</code>)</h4>
+<ul>
+<li>Convolution operations</li>
+<li>Pooling layers</li>
+<li>CNN architectures (LeNet, AlexNet, VGG)</li>
+<li>Image classification</li>
+<li>Feature visualization</li>
+<li><strong>Prerequisites:</strong> All basics</li>
+<li><strong>Duration:</strong> 4-5 hours</li>
+</ul>
+<h4 id="02-recurrent-neural-networks-intermediate02_rnnipynb">02. Recurrent Neural Networks (<code>intermediate/02_rnn.ipynb</code>)</h4>
+<ul>
+<li>RNN fundamentals</li>
+<li>LSTM and GRU</li>
+<li>Sequence modeling</li>
+<li>Text generation</li>
+<li>Time series prediction</li>
+<li><strong>Prerequisites:</strong> All basics</li>
+<li><strong>Duration:</strong> 4-5 hours</li>
+</ul>
+<h4 id="03-advanced-training-techniques-intermediate03_advanced_trainingipynb">03. Advanced Training Techniques (<code>intermediate/03_advanced_training.ipynb</code>)</h4>
+<ul>
+<li>Learning rate scheduling</li>
+<li>Gradient clipping</li>
+<li>Batch normalization</li>
+<li>Dropout and regularization</li>
+<li>Early stopping</li>
+<li>Mixed precision training</li>
+<li><strong>Prerequisites:</strong> All basics</li>
+<li><strong>Duration:</strong> 3-4 hours</li>
+</ul>
+<h4 id="04-transfer-learning-intermediate04_transfer_learningipynb">04. Transfer Learning (<code>intermediate/04_transfer_learning.ipynb</code>)</h4>
+<ul>
+<li>Pretrained models</li>
+<li>Feature extraction</li>
+<li>Fine-tuning</li>
+<li>ResNet, EfficientNet</li>
+<li>Domain adaptation</li>
+<li><strong>Prerequisites:</strong> 01_cnn.ipynb</li>
+<li><strong>Duration:</strong> 3-4 hours</li>
+</ul>
+<h4 id="05-model-evaluation-and-metrics-intermediate05_evaluationipynb">05. Model Evaluation and Metrics (<code>intermediate/05_evaluation.ipynb</code>)</h4>
+<ul>
+<li>Classification metrics</li>
+<li>Confusion matrices</li>
+<li>ROC curves and AUC</li>
+<li>Cross-validation</li>
+<li>Model interpretation</li>
+<li><strong>Prerequisites:</strong> All basics</li>
+<li><strong>Duration:</strong> 2-3 hours</li>
+</ul>
+<h4 id="06-advanced-data-processing-intermediate06_data_advancedipynb">06. Advanced Data Processing (<code>intermediate/06_data_advanced.ipynb</code>)</h4>
+<ul>
+<li>Custom data augmentation</li>
+<li>Handling imbalanced datasets</li>
+<li>Multi-modal data</li>
+<li>Data pipelines</li>
+<li>Prefetching and optimization</li>
+<li><strong>Prerequisites:</strong> 03_datasets.ipynb</li>
+<li><strong>Duration:</strong> 3 hours</li>
+</ul>
+<h3 id="-advanced-master-level">🔴 ADVANCED (Master Level)</h3>
+<h4 id="01-attention-mechanisms-and-transformers-advanced01_transformersipynb">01. Attention Mechanisms and Transformers (<code>advanced/01_transformers.ipynb</code>)</h4>
+<ul>
+<li>Self-attention mechanism</li>
+<li>Multi-head attention</li>
+<li>Positional encoding</li>
+<li>Transformer architecture</li>
+<li>BERT, GPT concepts</li>
+<li>Vision Transformers</li>
+<li><strong>Prerequisites:</strong> All intermediate</li>
+<li><strong>Duration:</strong> 6-8 hours</li>
+</ul>
+<h4 id="02-generative-adversarial-networks-advanced02_gansipynb">02. Generative Adversarial Networks (<code>advanced/02_gans.ipynb</code>)</h4>
+<ul>
+<li>GAN fundamentals</li>
+<li>Generator and discriminator</li>
+<li>Training GANs</li>
+<li>DCGAN, StyleGAN concepts</li>
+<li>Conditional GANs</li>
+<li><strong>Prerequisites:</strong> 01_cnn.ipynb</li>
+<li><strong>Duration:</strong> 5-6 hours</li>
+</ul>
+<h4 id="03-advanced-architectures-advanced03_architecturesipynb">03. Advanced Architectures (<code>advanced/03_architectures.ipynb</code>)</h4>
+<ul>
+<li>ResNet and skip connections</li>
+<li>DenseNet</li>
+<li>U-Net for segmentation</li>
+<li>Siamese networks</li>
+<li>Neural Architecture Search concepts</li>
+<li><strong>Prerequisites:</strong> All intermediate</li>
+<li><strong>Duration:</strong> 4-5 hours</li>
+</ul>
+<h4 id="04-custom-modules-and-hooks-advanced04_custom_modulesipynb">04. Custom Modules and Hooks (<code>advanced/04_custom_modules.ipynb</code>)</h4>
+<ul>
+<li>Custom layers</li>
+<li>Forward and backward hooks</li>
+<li>Gradient manipulation</li>
+<li>Custom autograd functions</li>
+<li>Memory efficient implementations</li>
+<li><strong>Prerequisites:</strong> 02_autograd.ipynb, All intermediate</li>
+<li><strong>Duration:</strong> 4-5 hours</li>
+</ul>
+<h4 id="05-distributed-training-advanced05_distributedipynb">05. Distributed Training (<code>advanced/05_distributed.ipynb</code>)</h4>
+<ul>
+<li>Data parallelism</li>
+<li>Model parallelism</li>
+<li>DistributedDataParallel</li>
+<li>Multi-GPU training</li>
+<li>Mixed precision and optimization</li>
+<li><strong>Prerequisites:</strong> All intermediate</li>
+<li><strong>Duration:</strong> 4-5 hours</li>
+</ul>
+<h4 id="06-model-optimization-advanced06_optimizationipynb">06. Model Optimization (<code>advanced/06_optimization.ipynb</code>)</h4>
+<ul>
+<li>Quantization</li>
+<li>Pruning</li>
+<li>Knowledge distillation</li>
+<li>ONNX export</li>
+<li>TorchScript</li>
+<li>Mobile deployment</li>
+<li><strong>Prerequisites:</strong> All intermediate</li>
+<li><strong>Duration:</strong> 4-5 hours</li>
+</ul>
+<h4 id="07-reinforcement-learning-advanced07_reinforcement_learningipynb">07. Reinforcement Learning (<code>advanced/07_reinforcement_learning.ipynb</code>)</h4>
+<ul>
+<li>Q-Learning</li>
+<li>Deep Q-Networks (DQN)</li>
+<li>Policy gradients</li>
+<li>Actor-Critic methods</li>
+<li>PPO basics</li>
+<li><strong>Prerequisites:</strong> All intermediate</li>
+<li><strong>Duration:</strong> 6-8 hours</li>
+</ul>
+<h3 id="-machine-learning-algorithms">🤖 MACHINE LEARNING ALGORITHMS</h3>
+<h4 id="01-linear-models-ml_algorithms01_linear_modelsipynb">01. Linear Models (<code>ml_algorithms/01_linear_models.ipynb</code>)</h4>
+<ul>
+<li>Linear Regression</li>
+<li>Logistic Regression</li>
+<li>Ridge and Lasso regression</li>
+<li>Implementation from scratch</li>
+</ul>
+<h4 id="02-tree-based-models-ml_algorithms02_treesipynb">02. Tree-Based Models (<code>ml_algorithms/02_trees.ipynb</code>)</h4>
+<ul>
+<li>Decision Trees</li>
+<li>Random Forests</li>
+<li>Gradient Boosting concepts</li>
+<li>Implementation in PyTorch</li>
+</ul>
+<h4 id="03-support-vector-machines-ml_algorithms03_svmipynb">03. Support Vector Machines (<code>ml_algorithms/03_svm.ipynb</code>)</h4>
+<ul>
+<li>Linear SVM</li>
+<li>Kernel trick</li>
+<li>PyTorch implementation</li>
+</ul>
+<h4 id="04-clustering-algorithms-ml_algorithms04_clusteringipynb">04. Clustering Algorithms (<code>ml_algorithms/04_clustering.ipynb</code>)</h4>
+<ul>
+<li>K-Means</li>
+<li>DBSCAN</li>
+<li>Hierarchical clustering</li>
+<li>Deep clustering</li>
+</ul>
+<h4 id="05-dimensionality-reduction-ml_algorithms05_dimensionality_reductionipynb">05. Dimensionality Reduction (<code>ml_algorithms/05_dimensionality_reduction.ipynb</code>)</h4>
+<ul>
+<li>PCA (Principal Component Analysis)</li>
+<li>t-SNE</li>
+<li>Autoencoders</li>
+<li>Variational Autoencoders (VAE)</li>
+</ul>
+<h4 id="06-ensemble-methods-ml_algorithms06_ensemblesipynb">06. Ensemble Methods (<code>ml_algorithms/06_ensembles.ipynb</code>)</h4>
+<ul>
+<li>Bagging</li>
+<li>Boosting</li>
+<li>Stacking</li>
+<li>Neural ensemble methods</li>
+</ul>
+<h2 id="-learning-paths">🎯 Learning Paths</h2>
+<h3 id="path-1-computer-vision-specialist">Path 1: Computer Vision Specialist</h3>
+<ol>
+<li>All Basics → </li>
+<li>Intermediate: 01_cnn, 03_advanced_training, 04_transfer_learning, 05_evaluation →</li>
+<li>Advanced: 02_gans, 03_architectures, 06_optimization</li>
+</ol>
+<h3 id="path-2-natural-language-processing">Path 2: Natural Language Processing</h3>
+<ol>
+<li>All Basics →</li>
+<li>Intermediate: 02_rnn, 03_advanced_training, 05_evaluation →</li>
+<li>Advanced: 01_transformers, 04_custom_modules, 06_optimization</li>
+</ol>
+<h3 id="path-3-ml-engineer-production-focus">Path 3: ML Engineer (Production Focus)</h3>
+<ol>
+<li>All Basics →</li>
+<li>All Intermediate →</li>
+<li>Advanced: 04_custom_modules, 05_distributed, 06_optimization</li>
+</ol>
+<h3 id="path-4-research--full-stack">Path 4: Research / Full Stack</h3>
+<ol>
+<li>Complete all modules in order</li>
+</ol>
+<h2 id="-how-to-use-this-course">📖 How to Use This Course</h2>
+<ol>
+<li><strong>Start with Basics</strong>: Even if you know Python well, start with basics to understand PyTorch specifics</li>
+<li><strong>Hands-on Practice</strong>: Type out every example, don&rsquo;t just read</li>
+<li><strong>Experiments</strong>: Modify code and see what happens</li>
+<li><strong>Projects</strong>: After each section, build a small project</li>
+<li><strong>Review</strong>: Revisit concepts regularly</li>
+</ol>
+<h2 id="-setup">🛠️ Setup</h2>
+<pre><code class="language-bash"># Install dependencies
+pip install -r requirements.txt
+
+# Verify PyTorch installation
+python -c &quot;import torch; print(f'PyTorch version: {torch.__version__}')&quot;
+python -c &quot;import torch; print(f'CUDA available: {torch.cuda.is_available()}')&quot;
+
+# Run tests
+make test
+
+# Run Jupyter notebooks
+jupyter notebook
+
+# Or use JupyterLab
+jupyter lab
+</code></pre>
+<h2 id="-additional-resources">📚 Additional Resources</h2>
+<ul>
+<li><strong>Official Documentation</strong>: https://pytorch.org/docs/</li>
+<li><strong>Tutorials</strong>: https://pytorch.org/tutorials/</li>
+<li><strong>Papers with Code</strong>: https://paperswithcode.com/</li>
+<li><strong>PyTorch Forums</strong>: https://discuss.pytorch.org/</li>
+</ul>
+<h2 id="-completion-checklist">🎓 Completion Checklist</h2>
+<ul>
+<li class="task-list-item"><input type="checkbox" disabled> Completed all Basics modules</li>
+<li class="task-list-item"><input type="checkbox" disabled> Built a simple image classifier</li>
+<li class="task-list-item"><input type="checkbox" disabled> Completed all Intermediate modules  </li>
+<li class="task-list-item"><input type="checkbox" disabled> Built a custom CNN architecture</li>
+<li class="task-list-item"><input type="checkbox" disabled> Trained a model on custom dataset</li>
+<li class="task-list-item"><input type="checkbox" disabled> Completed all Advanced modules</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implemented a paper from scratch</li>
+<li class="task-list-item"><input type="checkbox" disabled> Deployed a model to production</li>
+<li class="task-list-item"><input type="checkbox" disabled> Contributed to open source</li>
+</ul>
+<h2 id="-tips-for-success">💡 Tips for Success</h2>
+<ol>
+<li><strong>GPU Access</strong>: Use Google Colab or Kaggle for free GPU access</li>
+<li><strong>Start Small</strong>: Begin with small datasets and models</li>
+<li><strong>Debug Often</strong>: Use print statements and visualization</li>
+<li><strong>Read Papers</strong>: Implement 1-2 papers you&rsquo;re interested in</li>
+<li><strong>Join Community</strong>: Participate in PyTorch forums and Discord</li>
+</ol>
+<h2 id="-course-updates">📝 Course Updates</h2>
+<p>This course is comprehensive and covers PyTorch as of version 2.1+. All examples are tested and include detailed comments and ASCII diagrams for better understanding.</p>
+<p><strong>Total Estimated Time</strong>: 80-120 hours
+<strong>Difficulty Progression</strong>: Gentle → Steep → Expert
+<strong>Best For</strong>: Self-paced learning, reference material, interview prep</p>
+<hr />
+<p><strong>Happy Learning! 🚀</strong></p>` },
+  { name: `3. Getting Started`, path: `GETTING_STARTED.md`, dir: ``, body: `<h1 id="getting-started-with-pytorch-tutorial-course">Getting Started with PyTorch Tutorial Course</h1>
+<p>Welcome! This guide will help you get started with the PyTorch tutorial course.</p>
+<h2 id="-quick-start-5-minutes">⚡ Quick Start (5 minutes)</h2>
+<pre><code class="language-bash"># 1. Navigate to the course directory
+cd torch
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Start Jupyter
+jupyter notebook
+
+# 4. Open basics/01_tensors.ipynb and start learning!
+</code></pre>
+<h2 id="-prerequisites">📋 Prerequisites</h2>
+<h3 id="required">Required</h3>
+<ul>
+<li><strong>Python 3.8+</strong>: Check with <code>python --version</code></li>
+<li><strong>pip</strong>: Package manager (usually comes with Python)</li>
+<li><strong>8GB RAM</strong>: Minimum for comfortable learning</li>
+<li><strong>10GB disk space</strong>: For course materials and datasets</li>
+</ul>
+<h3 id="recommended">Recommended</h3>
+<ul>
+<li><strong>GPU</strong>: NVIDIA GPU with CUDA support (optional but recommended)</li>
+<li><strong>16GB RAM</strong>: For advanced topics</li>
+<li><strong>50GB disk space</strong>: For large datasets and models</li>
+</ul>
+<h3 id="knowledge-prerequisites">Knowledge Prerequisites</h3>
+<ul>
+<li><strong>Python basics</strong>: Variables, loops, functions, classes</li>
+<li><strong>NumPy basics</strong>: Arrays, basic operations (helpful but not required)</li>
+<li><strong>Math basics</strong>: Linear algebra, calculus (helpful for understanding theory)</li>
+</ul>
+<h2 id="-installation-guide">🛠️ Installation Guide</h2>
+<h3 id="option-1-using-pip-recommended">Option 1: Using pip (Recommended)</h3>
+<pre><code class="language-bash"># Create virtual environment
+python -m venv pytorch_env
+source pytorch_env/bin/activate  # On Windows: pytorch_env\\\\Scripts\\\\activate
+
+# Install PyTorch and dependencies
+pip install -r requirements.txt
+
+# Verify installation
+python -c &quot;import torch; print(f'PyTorch {torch.__version__} installed!')&quot;
+</code></pre>
+<h3 id="option-2-using-conda">Option 2: Using conda</h3>
+<pre><code class="language-bash"># Create conda environment
+conda create -n pytorch_course python=3.10
+conda activate pytorch_course
+
+# Install PyTorch (CPU version)
+conda install pytorch torchvision torchaudio cpuonly -c pytorch
+
+# Or GPU version (CUDA 11.8)
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+
+# Install other dependencies
+pip install jupyter matplotlib pandas scikit-learn tqdm
+</code></pre>
+<h3 id="option-3-google-colab-no-installation">Option 3: Google Colab (No Installation)</h3>
+<p>If you don&rsquo;t want to install anything locally:</p>
+<ol>
+<li>Go to <a href="https://colab.research.google.com/">Google Colab</a></li>
+<li>Upload notebooks from this course</li>
+<li>PyTorch is pre-installed!</li>
+<li>Free GPU access available</li>
+</ol>
+<h2 id="-learning-path">🎯 Learning Path</h2>
+<h3 id="for-complete-beginners">For Complete Beginners</h3>
+<p><strong>Week 1-2: Basics</strong>
+- Day 1-2: <code>01_tensors.ipynb</code> (understand tensors)
+- Day 3-4: <code>02_autograd.ipynb</code> (gradients)
+- Day 5-6: <code>03_datasets.ipynb</code> (data loading)
+- Day 7-9: <code>04_neural_networks.ipynb</code> (build networks)
+- Day 10-14: <code>05_training_basics.ipynb</code> (train models)</p>
+<p><strong>Week 3-4: Intermediate</strong>
+- Start with <code>intermediate/01_cnn.ipynb</code>
+- Complete one notebook per 2-3 days
+- Build projects as you learn</p>
+<p><strong>Week 5+: Advanced &amp; Specialization</strong>
+- Choose topics based on interest
+- Work on personal projects
+- Read research papers</p>
+<h3 id="for-those-with-ml-background">For Those with ML Background</h3>
+<p><strong>Fast Track (2 weeks)</strong>
+- Day 1: Basics 01-03 (skim if comfortable)
+- Day 2-3: Basics 04-05 (focus on PyTorch specifics)
+- Day 4-7: All intermediate notebooks
+- Day 8-14: Selected advanced topics</p>
+<h3 id="for-quick-reference">For Quick Reference</h3>
+<p>If you just need a quick lookup:
+1. Open <code>QUICK_REFERENCE.md</code>
+2. Search for the topic
+3. Copy-paste code examples</p>
+<h2 id="-course-structure">📚 Course Structure</h2>
+<pre><code>BASICS (15-20 hours)
+├── 01_tensors.ipynb         ⭐ Start here!
+├── 02_autograd.ipynb        ⭐ Critical for understanding
+├── 03_datasets.ipynb
+├── 04_neural_networks.ipynb
+└── 05_training_basics.ipynb ⭐ Build your first model
+
+INTERMEDIATE (25-30 hours)
+├── 01_cnn.ipynb             ⭐ For computer vision
+├── 02_rnn.ipynb             ⭐ For sequences/NLP
+├── 03_advanced_training.ipynb
+├── 04_transfer_learning.ipynb
+├── 05_evaluation.ipynb
+└── 06_data_advanced.ipynb
+
+ADVANCED (40-50 hours)
+├── 01_transformers.ipynb    ⭐ Modern NLP
+├── 02_gans.ipynb           ⭐ Generative models
+├── 03_architectures.ipynb
+├── 04_custom_modules.ipynb
+├── 05_distributed.ipynb    ⭐ For large models
+├── 06_optimization.ipynb   ⭐ For production
+└── 07_reinforcement_learning.ipynb
+
+ML ALGORITHMS (15-20 hours)
+├── 01_linear_models.ipynb
+├── 02_trees.ipynb
+├── 03_svm.ipynb
+├── 04_clustering.ipynb
+├── 05_dimensionality_reduction.ipynb
+└── 06_ensembles.ipynb
+</code></pre>
+<h2 id="-study-tips">💡 Study Tips</h2>
+<h3 id="1-type-the-code">1. Type the Code</h3>
+<p><strong>Don&rsquo;t just read!</strong> Type every example yourself. This builds muscle memory and understanding.</p>
+<h3 id="2-experiment">2. Experiment</h3>
+<p>After each section:
+- Change hyperparameters
+- Try different architectures
+- Use different datasets
+- Break things and fix them</p>
+<h3 id="3-do-the-exercises">3. Do the Exercises</h3>
+<p>Every notebook has practice exercises. <strong>Do them!</strong> They reinforce learning.</p>
+<h3 id="4-build-projects">4. Build Projects</h3>
+<p>Apply what you learn:
+- <strong>After Basics</strong>: Build a simple classifier
+- <strong>After Intermediate</strong>: Build a CNN for your own images
+- <strong>After Advanced</strong>: Build something novel</p>
+<h3 id="5-take-notes">5. Take Notes</h3>
+<p>Keep a personal cheat sheet of:
+- Common patterns
+- Things that confused you
+- Useful code snippets</p>
+<h3 id="6-join-communities">6. Join Communities</h3>
+<ul>
+<li><a href="https://discuss.pytorch.org/">PyTorch Forums</a></li>
+<li><a href="https://reddit.com/r/MachineLearning">r/MachineLearning</a></li>
+<li><a href="https://reddit.com/r/pytorch">r/pytorch</a></li>
+<li>Discord servers for ML</li>
+</ul>
+<h2 id="-troubleshooting">🐛 Troubleshooting</h2>
+<h3 id="importerror-no-module-named-torch">&ldquo;ImportError: No module named &lsquo;torch&rsquo;&rdquo;</h3>
+<pre><code class="language-bash">pip install torch torchvision
+</code></pre>
+<h3 id="cuda-out-of-memory">&ldquo;CUDA out of memory&rdquo;</h3>
+<pre><code class="language-python"># Reduce batch size
+train_loader = DataLoader(dataset, batch_size=32)  # Try 16 or 8
+
+# Clear cache
+torch.cuda.empty_cache()
+
+# Use CPU instead
+device = 'cpu'
+</code></pre>
+<h3 id="notebook-kernel-keeps-dying">&ldquo;Notebook kernel keeps dying&rdquo;</h3>
+<ul>
+<li>Close other applications</li>
+<li>Reduce batch size</li>
+<li>Use smaller models for testing</li>
+<li>Add more RAM/swap space</li>
+</ul>
+<h3 id="training-is-very-slow">&ldquo;Training is very slow&rdquo;</h3>
+<ul>
+<li>Check if GPU is being used: <code>torch.cuda.is_available()</code></li>
+<li>Use DataLoader with <code>num_workers=4</code></li>
+<li>Use mixed precision training (advanced)</li>
+<li>Reduce model size for testing</li>
+</ul>
+<h2 id="-completion-checklist">🎓 Completion Checklist</h2>
+<p>Track your progress:</p>
+<h3 id="basics-">Basics ✅</h3>
+<ul>
+<li class="task-list-item"><input type="checkbox" disabled> Understand tensors and operations</li>
+<li class="task-list-item"><input type="checkbox" disabled> Can explain autograd</li>
+<li class="task-list-item"><input type="checkbox" disabled> Know how to load data</li>
+<li class="task-list-item"><input type="checkbox" disabled> Can build simple networks</li>
+<li class="task-list-item"><input type="checkbox" disabled> Trained at least one model</li>
+</ul>
+<h3 id="intermediate-">Intermediate ✅</h3>
+<ul>
+<li class="task-list-item"><input type="checkbox" disabled> Built a CNN</li>
+<li class="task-list-item"><input type="checkbox" disabled> Built an RNN/LSTM</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implemented advanced training techniques</li>
+<li class="task-list-item"><input type="checkbox" disabled> Used transfer learning</li>
+<li class="task-list-item"><input type="checkbox" disabled> Evaluated models properly</li>
+</ul>
+<h3 id="advanced-">Advanced ✅</h3>
+<ul>
+<li class="task-list-item"><input type="checkbox" disabled> Understand transformers</li>
+<li class="task-list-item"><input type="checkbox" disabled> Built a GAN</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implemented custom layers</li>
+<li class="task-list-item"><input type="checkbox" disabled> Trained on multiple GPUs (if available)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Optimized a model for production</li>
+</ul>
+<h3 id="projects-">Projects ✅</h3>
+<ul>
+<li class="task-list-item"><input type="checkbox" disabled> Built image classifier</li>
+<li class="task-list-item"><input type="checkbox" disabled> Built text classifier</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implemented paper from scratch</li>
+<li class="task-list-item"><input type="checkbox" disabled> Deployed model to production</li>
+<li class="task-list-item"><input type="checkbox" disabled> Contributed to open source</li>
+</ul>
+<h2 id="-whats-next">📖 What&rsquo;s Next?</h2>
+<p>After completing this course:</p>
+<ol>
+<li><strong>Read Papers</strong>: <a href="https://paperswithcode.com/">Papers with Code</a></li>
+<li><strong>Kaggle Competitions</strong>: Apply skills to real problems</li>
+<li><strong>Open Source</strong>: Contribute to PyTorch ecosystem</li>
+<li><strong>Specialization</strong>: Focus on vision, NLP, or RL</li>
+<li><strong>Research</strong>: Push the boundaries of AI</li>
+</ol>
+<h2 id="-getting-help">🆘 Getting Help</h2>
+<ol>
+<li><strong>Check QUICK_REFERENCE.md</strong> first</li>
+<li><strong>Search in COURSE_INDEX.md</strong> for specific topics</li>
+<li><strong>Look at notebook examples</strong></li>
+<li><strong>Google the error message</strong></li>
+<li><strong>Ask on PyTorch forums</strong></li>
+</ol>
+<h2 id="-ready-to-start">🎉 Ready to Start?</h2>
+<pre><code class="language-bash"># Let's go!
+cd torch
+jupyter notebook
+# Open basics/01_tensors.ipynb
+</code></pre>
+<p><strong>Happy Learning! 🚀</strong></p>
+<hr />
+<p><em>Remember: Everyone was a beginner once. Take your time, ask questions, and enjoy the journey!</em></p>` },
+  { name: `4. Quick Reference`, path: `QUICK_REFERENCE.md`, dir: ``, body: `<h1 id="pytorch-quick-reference-guide">PyTorch Quick Reference Guide</h1>
+<p>A comprehensive quick reference for PyTorch. Perfect for quick lookups and interview prep.</p>
+<h2 id="-installation--setup">📦 Installation &amp; Setup</h2>
+<pre><code class="language-bash"># CPU version
+pip install torch torchvision torchaudio
+
+# CUDA 11.8
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+# CUDA 12.1
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Check installation
+import torch
+print(torch.__version__)
+print(torch.cuda.is_available())
+</code></pre>
+<h2 id="-tensor-basics">🔢 Tensor Basics</h2>
+<h3 id="creating-tensors">Creating Tensors</h3>
+<pre><code class="language-python">import torch
+
+# From data
+torch.tensor([1, 2, 3])
+torch.tensor([[1, 2], [3, 4]], dtype=torch.float32)
+
+# Zeros and ones
+torch.zeros(2, 3)
+torch.ones(2, 3)
+torch.eye(3)  # Identity matrix
+
+# Random
+torch.rand(2, 3)  # Uniform [0, 1)
+torch.randn(2, 3)  # Normal(0, 1)
+torch.randint(0, 10, (2, 3))  # Random integers
+
+# From numpy
+import numpy as np
+torch.from_numpy(np.array([1, 2, 3]))
+
+# Like operations
+x = torch.zeros(2, 3)
+torch.zeros_like(x)
+torch.ones_like(x)
+torch.rand_like(x)
+</code></pre>
+<h3 id="tensor-properties">Tensor Properties</h3>
+<pre><code class="language-python">x = torch.randn(2, 3, 4)
+x.shape  # torch.Size([2, 3, 4])
+x.size()  # torch.Size([2, 3, 4])
+x.dtype  # torch.float32
+x.device  # cpu or cuda
+x.requires_grad  # False
+x.numel()  # 24 (total elements)
+</code></pre>
+<h3 id="indexing--slicing">Indexing &amp; Slicing</h3>
+<pre><code class="language-python">x = torch.randn(4, 5)
+x[0]  # First row
+x[:, 0]  # First column
+x[0, :]  # First row (alternative)
+x[1:3, :]  # Rows 1 and 2
+x[[0, 2], :]  # Rows 0 and 2
+x[x &gt; 0]  # Boolean indexing
+</code></pre>
+<h3 id="reshaping">Reshaping</h3>
+<pre><code class="language-python">x = torch.randn(2, 3, 4)
+x.view(2, 12)  # Reshape (requires contiguous)
+x.reshape(2, 12)  # Reshape (handles non-contiguous)
+x.view(-1)  # Flatten
+x.unsqueeze(0)  # Add dimension at position 0
+x.squeeze()  # Remove dimensions of size 1
+x.transpose(0, 1)  # Swap dimensions
+x.permute(2, 0, 1)  # Reorder dimensions
+</code></pre>
+<h3 id="operations">Operations</h3>
+<pre><code class="language-python"># Arithmetic
+x + y, x - y, x * y, x / y
+x.add(y), x.sub(y), x.mul(y), x.div(y)
+x ** 2  # Power
+torch.sqrt(x), torch.exp(x), torch.log(x)
+
+# Matrix operations
+x @ y  # Matrix multiplication
+torch.mm(x, y)  # 2D matrix multiplication
+torch.bmm(x, y)  # Batch matrix multiplication
+torch.matmul(x, y)  # General matrix multiplication
+x.T  # Transpose
+
+# Aggregations
+x.sum(), x.mean(), x.std(), x.var()
+x.min(), x.max()
+x.argmin(), x.argmax()
+x.sum(dim=0)  # Sum along dimension
+
+# Comparison
+x &gt; 0, x &lt; 0, x == 0
+torch.eq(x, y), torch.ne(x, y)
+torch.gt(x, y), torch.lt(x, y)
+</code></pre>
+<h3 id="gpu-operations">GPU Operations</h3>
+<pre><code class="language-python"># Check CUDA
+torch.cuda.is_available()
+torch.cuda.device_count()
+torch.cuda.get_device_name(0)
+
+# Move to GPU
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+x = x.to(device)
+x = x.cuda()  # Alternative
+
+# Move to CPU
+x = x.cpu()
+
+# Create on GPU directly
+x = torch.randn(2, 3, device='cuda')
+</code></pre>
+<h2 id="-autograd">🔄 Autograd</h2>
+<pre><code class="language-python"># Enable gradient tracking
+x = torch.randn(2, 3, requires_grad=True)
+
+# Or enable later
+x = torch.randn(2, 3)
+x.requires_grad = True
+
+# Forward pass
+y = x ** 2
+z = y.sum()
+
+# Backward pass
+z.backward()
+
+# Access gradients
+x.grad  # dz/dx
+
+# Disable gradient
+with torch.no_grad():
+    y = x ** 2
+
+# Detach from graph
+y = x.detach()
+
+# Zero gradients
+x.grad.zero_()
+
+# Context managers
+torch.set_grad_enabled(False)
+@torch.no_grad()
+def inference(x):
+    return model(x)
+</code></pre>
+<h2 id="-neural-networks">🧠 Neural Networks</h2>
+<h3 id="basic-module">Basic Module</h3>
+<pre><code class="language-python">import torch.nn as nn
+
+class MyModel(nn.Module):
+    def __init__(self):
+        super(MyModel, self).__init__()
+        self.layer1 = nn.Linear(10, 5)
+        self.layer2 = nn.Linear(5, 1)
+
+    def forward(self, x):
+        x = torch.relu(self.layer1(x))
+        x = self.layer2(x)
+        return x
+
+model = MyModel()
+</code></pre>
+<h3 id="common-layers">Common Layers</h3>
+<pre><code class="language-python"># Fully connected
+nn.Linear(in_features, out_features)
+
+# Convolutional
+nn.Conv2d(in_channels, out_channels, kernel_size)
+nn.Conv1d(in_channels, out_channels, kernel_size)
+nn.Conv3d(in_channels, out_channels, kernel_size)
+
+# Pooling
+nn.MaxPool2d(kernel_size, stride)
+nn.AvgPool2d(kernel_size, stride)
+nn.AdaptiveAvgPool2d(output_size)
+
+# Recurrent
+nn.RNN(input_size, hidden_size, num_layers)
+nn.LSTM(input_size, hidden_size, num_layers)
+nn.GRU(input_size, hidden_size, num_layers)
+
+# Normalization
+nn.BatchNorm2d(num_features)
+nn.LayerNorm(normalized_shape)
+nn.GroupNorm(num_groups, num_channels)
+
+# Dropout
+nn.Dropout(p=0.5)
+nn.Dropout2d(p=0.5)
+
+# Activation
+nn.ReLU(), nn.LeakyReLU(), nn.ELU()
+nn.Sigmoid(), nn.Tanh()
+nn.Softmax(dim=1)
+
+# Attention
+nn.MultiheadAttention(embed_dim, num_heads)
+</code></pre>
+<h3 id="loss-functions">Loss Functions</h3>
+<pre><code class="language-python"># Classification
+nn.CrossEntropyLoss()  # For logits
+nn.NLLLoss()  # For log probabilities
+nn.BCELoss()  # Binary cross-entropy
+nn.BCEWithLogitsLoss()  # BCE with sigmoid
+
+# Regression
+nn.MSELoss()  # Mean squared error
+nn.L1Loss()  # Mean absolute error
+nn.SmoothL1Loss()  # Huber loss
+
+# Custom
+class CustomLoss(nn.Module):
+    def forward(self, pred, target):
+        return ((pred - target) ** 2).mean()
+</code></pre>
+<h3 id="optimizers">Optimizers</h3>
+<pre><code class="language-python">import torch.optim as optim
+
+# SGD
+optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+
+# Adam
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# AdamW (with weight decay)
+optimizer = optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.01)
+
+# RMSprop
+optimizer = optim.RMSprop(model.parameters(), lr=0.01)
+
+# Learning rate scheduler
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5)
+scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=100)
+</code></pre>
+<h2 id="-training-loop">🎯 Training Loop</h2>
+<pre><code class="language-python">model.train()  # Set to training mode
+
+for epoch in range(num_epochs):
+    for batch_idx, (data, target) in enumerate(train_loader):
+        # Move to device
+        data, target = data.to(device), target.to(device)
+
+        # Zero gradients
+        optimizer.zero_grad()
+
+        # Forward pass
+        output = model(data)
+
+        # Compute loss
+        loss = criterion(output, target)
+
+        # Backward pass
+        loss.backward()
+
+        # Update weights
+        optimizer.step()
+
+    # Update learning rate
+    scheduler.step()
+</code></pre>
+<h2 id="-data-loading">📊 Data Loading</h2>
+<pre><code class="language-python">from torch.utils.data import Dataset, DataLoader
+import torchvision.transforms as transforms
+
+# Custom dataset
+class CustomDataset(Dataset):
+    def __init__(self, data, labels):
+        self.data = data
+        self.labels = labels
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.data[idx], self.labels[idx]
+
+# DataLoader
+dataset = CustomDataset(data, labels)
+loader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4)
+
+# Transforms
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                        std=[0.229, 0.224, 0.225])
+])
+</code></pre>
+<h2 id="-saving--loading">💾 Saving &amp; Loading</h2>
+<pre><code class="language-python"># Save entire model
+torch.save(model, 'model.pth')
+model = torch.load('model.pth')
+
+# Save state dict (recommended)
+torch.save(model.state_dict(), 'model_weights.pth')
+model.load_state_dict(torch.load('model_weights.pth'))
+
+# Save checkpoint
+torch.save({
+    'epoch': epoch,
+    'model_state_dict': model.state_dict(),
+    'optimizer_state_dict': optimizer.state_dict(),
+    'loss': loss,
+}, 'checkpoint.pth')
+
+# Load checkpoint
+checkpoint = torch.load('checkpoint.pth')
+model.load_state_dict(checkpoint['model_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+epoch = checkpoint['epoch']
+loss = checkpoint['loss']
+</code></pre>
+<h2 id="-model-inspection">🔍 Model Inspection</h2>
+<pre><code class="language-python"># Model parameters
+for name, param in model.named_parameters():
+    print(name, param.shape)
+
+# Total parameters
+sum(p.numel() for p in model.parameters())
+
+# Trainable parameters
+sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+# Freeze/unfreeze layers
+for param in model.parameters():
+    param.requires_grad = False
+
+# Model summary
+print(model)
+
+# Forward hook
+def hook_fn(module, input, output):
+    print(output.shape)
+
+handle = model.layer1.register_forward_hook(hook_fn)
+handle.remove()  # Remove hook
+</code></pre>
+<h2 id="-torchvision">🎨 Torchvision</h2>
+<pre><code class="language-python">import torchvision
+from torchvision import models, datasets
+
+# Pretrained models
+model = models.resnet50(pretrained=True)
+model = models.vgg16(pretrained=True)
+model = models.efficientnet_b0(pretrained=True)
+
+# Datasets
+train_dataset = datasets.MNIST(root='./data', train=True, download=True)
+train_dataset = datasets.CIFAR10(root='./data', train=True, download=True)
+train_dataset = datasets.ImageFolder(root='./data/train')
+
+# Transforms
+from torchvision.transforms import functional as F
+</code></pre>
+<h2 id="-performance-tips">⚡ Performance Tips</h2>
+<pre><code class="language-python"># Use GPU
+device = torch.device('cuda')
+model.to(device)
+
+# Mixed precision training
+from torch.cuda.amp import autocast, GradScaler
+scaler = GradScaler()
+
+with autocast():
+    output = model(input)
+    loss = criterion(output, target)
+
+scaler.scale(loss).backward()
+scaler.step(optimizer)
+scaler.update()
+
+# DataLoader workers
+DataLoader(dataset, batch_size=32, num_workers=4, pin_memory=True)
+
+# Non-blocking transfers
+data = data.to(device, non_blocking=True)
+
+# Gradient accumulation
+for i, (data, target) in enumerate(loader):
+    output = model(data)
+    loss = criterion(output, target) / accumulation_steps
+    loss.backward()
+
+    if (i + 1) % accumulation_steps == 0:
+        optimizer.step()
+        optimizer.zero_grad()
+</code></pre>
+<h2 id="-debugging">🐛 Debugging</h2>
+<pre><code class="language-python"># Check for NaN
+torch.isnan(x).any()
+torch.isinf(x).any()
+
+# Gradient clipping
+torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+
+# Detect anomalies
+torch.autograd.set_detect_anomaly(True)
+
+# Print gradients
+for name, param in model.named_parameters():
+    if param.grad is not None:
+        print(name, param.grad.abs().mean())
+</code></pre>
+<h2 id="-common-patterns">📈 Common Patterns</h2>
+<h3 id="transfer-learning">Transfer Learning</h3>
+<pre><code class="language-python">model = models.resnet50(pretrained=True)
+
+# Freeze all layers
+for param in model.parameters():
+    param.requires_grad = False
+
+# Replace final layer
+model.fc = nn.Linear(model.fc.in_features, num_classes)
+
+# Only train final layer
+optimizer = optim.Adam(model.fc.parameters())
+</code></pre>
+<h3 id="multi-gpu-training">Multi-GPU Training</h3>
+<pre><code class="language-python">if torch.cuda.device_count() &gt; 1:
+    model = nn.DataParallel(model)
+
+model.to(device)
+</code></pre>
+<h3 id="evaluation-mode">Evaluation Mode</h3>
+<pre><code class="language-python">model.eval()
+with torch.no_grad():
+    for data, target in test_loader:
+        output = model(data)
+        # Compute metrics
+</code></pre>
+<h2 id="-useful-links">🔗 Useful Links</h2>
+<ul>
+<li><strong>Docs</strong>: https://pytorch.org/docs/</li>
+<li><strong>Tutorials</strong>: https://pytorch.org/tutorials/</li>
+<li><strong>Forums</strong>: https://discuss.pytorch.org/</li>
+<li><strong>GitHub</strong>: https://github.com/pytorch/pytorch</li>
+</ul>
+<hr />
+<p><strong>Tip</strong>: Keep this guide handy for quick reference during development!</p>` }
+];
+
+const docSelect = document.getElementById('docSelect');
+const docList = document.getElementById('docList');
+const tabPanels = document.getElementById('tabPanels');
+const navDocTitle = document.getElementById('navDocTitle');
+let navLastY = 0;
+
+TAB_DATA.forEach((tab, idx) => {
+    const opt = document.createElement('option');
+    opt.value = String(idx);
+    opt.textContent = tab.name;
+    docSelect.appendChild(opt);
+
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#tab-' + idx;
+    a.textContent = tab.name;
+    a.title = tab.name;
+    a.dataset.docIdx = String(idx);
+    a.addEventListener('click', function(e) {
+        e.preventDefault();
+        activateTab(idx);
+    });
+    li.appendChild(a);
+    docList.appendChild(li);
+
+    const panel = document.createElement('div');
+    panel.className = 'tab-content';
+    panel.id = 'panel-' + idx;
+    panel.dataset.dir = tab.dir || '';
+    panel.innerHTML = tab.body;
+    tabPanels.appendChild(panel);
+});
+
+/* ───── Cross-document link resolution (supports nested folders) ─────
+   Docs may live in sub-directories and link to each other with relative
+   paths ("../03_patterns/README.md"), bare files ("CHEATSHEET.md") or even a
+   folder ("01_pthreads/"), which we resolve to that folder's README. */
+const BY_PATH = {};        // "01_pthreads/readme.md"  -> idx
+const BY_DIR_README = {};  // "01_pthreads" / ""        -> idx (README of dir)
+const BY_BASENAME = {};    // "cheatsheet.md"           -> idx (only if unique)
+const BASENAME_DUP = {};
+
+TAB_DATA.forEach((tab, idx) => {
+    const path = (tab.path || '').toLowerCase();
+    if (path) BY_PATH[path] = idx;
+    const base = path.split('/').pop();
+    if (base) {
+        if (Object.prototype.hasOwnProperty.call(BY_BASENAME, base)) BASENAME_DUP[base] = true;
+        else BY_BASENAME[base] = idx;
+    }
+    if (base === 'readme.md') {
+        BY_DIR_README[(tab.dir || '').toLowerCase()] = idx;
+    }
+});
+Object.keys(BASENAME_DUP).forEach(b => { delete BY_BASENAME[b]; });
+
+/* Join a relative href onto a base directory and normalize . / .. segments. */
+function joinPath(baseDir, rel) {
+    if (rel.charAt(0) === '/') { baseDir = ''; rel = rel.replace(/^\/+/, ''); }
+    const parts = (baseDir ? baseDir.split('/') : []).concat(rel.split('/'));
+    const out = [];
+    for (const p of parts) {
+        if (p === '' || p === '.') continue;
+        if (p === '..') { out.pop(); continue; }
+        out.push(p);
+    }
+    return out.join('/');
+}
+
+function mdTarget(rawHref, baseDir) {
+    if (!rawHref || rawHref.charAt(0) === '#') return null;
+    if (/^[a-z][a-z0-9+.-]*:\/\//i.test(rawHref) || /^(mailto|tel):/i.test(rawHref)) return null;
+
+    let anchor = '';
+    let pathPart = rawHref;
+    const hashIdx = pathPart.indexOf('#');
+    if (hashIdx >= 0) {
+        anchor = pathPart.substring(hashIdx + 1);
+        pathPart = pathPart.substring(0, hashIdx);
+        try { anchor = decodeURIComponent(anchor); } catch (e) {}
+    }
+    const qIdx = pathPart.indexOf('?');
+    if (qIdx >= 0) pathPart = pathPart.substring(0, qIdx);
+    if (!pathPart) return null;
+
+    const joined = joinPath(baseDir || '', pathPart).toLowerCase();
+    let idx;
+    if (/\.md$/i.test(pathPart)) {
+        idx = BY_PATH[joined];
+        if (idx === undefined) {
+            const base = joined.split('/').pop();
+            idx = BY_BASENAME[base];
+        }
+    } else {
+        // a directory reference -> that folder's README
+        idx = BY_DIR_README[joined];
+    }
+    if (idx === undefined) return null;
+    return { idx: idx, anchor: anchor };
+}
+
+function baseDirOf(node) {
+    const panel = node && node.closest ? node.closest('.tab-content') : null;
+    return panel ? (panel.dataset.dir || '') : '';
+}
+
+/* Tag links so we can style internal navigation distinctly from external ones. */
+function classifyLinks() {
+    document.querySelectorAll('.tab-content a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href) return;
+        if (href.charAt(0) === '#') {
+            a.classList.add('anchor-link');
+        } else if (mdTarget(href, baseDirOf(a))) {
+            a.classList.add('xref-link');
+        } else if (/^[a-z][a-z0-9+.-]*:\/\//i.test(href)) {
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+        }
+    });
+}
+classifyLinks();
+
+docSelect.addEventListener('change', () => {
+    activateTab(parseInt(docSelect.value, 10));
+});
+
+/* ───── Syntax highlighting ───── */
+
+function addCopyButton(pre, block) {
+    const btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.type = 'button';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', () => {
+        const text = block.innerText;
+        const done = () => {
+            btn.textContent = 'Copied';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+        } else {
+            fallbackCopy(text, done);
+        }
+    });
+    pre.appendChild(btn);
+}
+
+function fallbackCopy(text, done) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+}
+
+function highlightAllCode() {
+    document.querySelectorAll('.tab-content pre code').forEach(block => {
+        if (block.dataset.highlighted === '1') return;
+        const pre = block.closest('pre');
+        const langClass = Array.from(block.classList).find(c => c.startsWith('language-'));
+        if (langClass) {
+            const lang = langClass.replace('language-', '');
+            const label = document.createElement('span');
+            label.className = 'code-lang-label';
+            label.textContent = lang;
+            pre.appendChild(label);
+        }
+        hljs.highlightElement(block);
+        addCopyButton(pre, block);
+        block.dataset.highlighted = '1';
+    });
+}
+
+highlightAllCode();
+
+/* ───── Theme toggle ───── */
+
+const HLJS_DARK = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css';
+const HLJS_LIGHT = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css';
+const themeToggleBtn = document.getElementById('themeToggle');
+const hljsLink = document.getElementById('hljs-theme');
+
+const ICON_SUN = '<svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-1.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm5.657-8.157a.75.75 0 0 1 0 1.061l-1.061 1.06a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.06-1.06a.75.75 0 0 1 1.06 0Zm-9.193 9.193a.75.75 0 0 1 0 1.06l-1.06 1.061a.75.75 0 1 1-1.061-1.06l1.06-1.061a.75.75 0 0 1 1.061 0ZM8 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V.75A.75.75 0 0 1 8 0ZM3 8a.75.75 0 0 1-.75.75H.75a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 3 8Zm13 0a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 16 8Zm-8 5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 13Zm3.536-2.464a.75.75 0 0 1 1.06 0l1.061 1.06a.75.75 0 0 1-1.06 1.061l-1.061-1.06a.75.75 0 0 1 0-1.061Zm-8.132 0a.75.75 0 0 1 1.06 1.061l-1.06 1.06a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734Z"></path></svg>';
+const ICON_MOON = '<svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.598 1.591a.749.749 0 0 1 .785-.175 7.001 7.001 0 1 1-8.967 8.967.75.75 0 0 1 .961-.96 5.5 5.5 0 0 0 7.046-7.046.75.75 0 0 1 .175-.786Zm1.616 1.945a7 7 0 0 1-7.678 7.678 5.499 5.499 0 1 0 7.678-7.678Z"></path></svg>';
+
+function getStoredTheme() {
+    try { return localStorage.getItem('doc-theme'); } catch(e) { return null; }
+}
+
+function setTheme(theme) {
+    document.body.setAttribute('data-theme', theme);
+    hljsLink.href = theme === 'light' ? HLJS_LIGHT : HLJS_DARK;
+    themeToggleBtn.innerHTML = theme === 'light' ? ICON_SUN : ICON_MOON;
+    themeToggleBtn.title = theme === 'light'
+        ? 'Switch to dark mode (Ctrl+Shift+L)'
+        : 'Switch to light mode (Ctrl+Shift+L)';
+    try { localStorage.setItem('doc-theme', theme); } catch(e) {}
+}
+
+(function initTheme() {
+    const stored = getStoredTheme();
+    const theme = (stored === 'light' || stored === 'dark')
+        ? stored
+        : (document.body.getAttribute('data-theme') || 'dark');
+    setTheme(theme);
+})();
+
+themeToggleBtn.addEventListener('click', () => {
+    const current = document.body.getAttribute('data-theme') || 'dark';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'L') {
+        e.preventDefault();
+        const current = document.body.getAttribute('data-theme') || 'dark';
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+});
+
+/* ───── Tab activation ───── */
+
+function activateTab(idx, resetScroll) {
+    if (resetScroll === undefined) resetScroll = true;
+    document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + idx).classList.add('active');
+    docSelect.value = String(idx);
+    docList.querySelectorAll('a').forEach(a => {
+        a.classList.toggle('nav-doc-active', parseInt(a.dataset.docIdx, 10) === idx);
+    });
+    history.replaceState(null, null, '#tab-' + idx);
+    if (typeof buildToc === 'function') buildToc(idx);
+    // Reflect the active document's title in the condensing navbar.
+    if (navDocTitle && TAB_DATA[idx]) {
+        navDocTitle.textContent = TAB_DATA[idx].name.replace(/^\s*\d+\.\s*/, '');
+    }
+    // Jump back to the top when switching documents so the reader starts at
+    // the beginning rather than wherever the previous doc was scrolled to.
+    if (resetScroll) {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        document.body.classList.remove('nav-condensed');
+        navLastY = 0;
+    }
+}
+
+/* ───── Search index: pre-extract plain text per block ───── */
+
+const searchIndex = [];
+
+TAB_DATA.forEach((tab, tabIdx) => {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = tab.body;
+    let currentHeading = '';
+
+    function walk(node) {
+        for (const child of node.childNodes) {
+            if (child.nodeType === Node.ELEMENT_NODE) {
+                const tag = child.tagName;
+                if (/^H[1-6]$/.test(tag)) {
+                    currentHeading = child.textContent.trim();
+                }
+                const text = child.textContent.trim();
+                if (text.length > 0) {
+                    searchIndex.push({
+                        tabIdx: tabIdx,
+                        tabName: tab.name,
+                        heading: currentHeading,
+                        text: text,
+                        tag: tag
+                    });
+                }
+                if (/^(P|LI|TD|TH|BLOCKQUOTE|PRE|H[1-6])$/.test(tag)) {
+                    continue;
+                }
+                walk(child);
+            }
+        }
+    }
+    walk(tmp);
+});
+
+/* ───── Search overlay logic ───── */
+
+const overlay = document.getElementById('searchOverlay');
+const searchInput = document.getElementById('searchInput');
+const searchTrigger = document.getElementById('searchTrigger');
+const srBody = document.getElementById('srBody');
+const srCount = document.getElementById('srCount');
+let srActiveIdx = -1;
+let srResults = [];
+
+function openSearch() {
+    overlay.classList.add('open');
+    searchInput.value = '';
+    searchInput.focus();
+    srBody.innerHTML = '<div class="sr-empty">Type to search across all tabs</div>';
+    srCount.textContent = '';
+    srActiveIdx = -1;
+    srResults = [];
+}
+
+function closeSearch() {
+    overlay.classList.remove('open');
+    searchInput.value = '';
+}
+
+searchTrigger.addEventListener('click', openSearch);
+
+overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeSearch();
+});
+
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        if (overlay.classList.contains('open')) closeSearch();
+        else openSearch();
+        return;
+    }
+    if (e.key === '/' && !overlay.classList.contains('open') &&
+        !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        openSearch();
+        return;
+    }
+    if (e.key === 'Escape' && overlay.classList.contains('open')) {
+        closeSearch();
+        return;
+    }
+    if (overlay.classList.contains('open')) {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (srResults.length > 0) {
+                srActiveIdx = Math.min(srActiveIdx + 1, srResults.length - 1);
+                updateActiveResult();
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (srResults.length > 0) {
+                srActiveIdx = Math.max(srActiveIdx - 1, 0);
+                updateActiveResult();
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (srActiveIdx >= 0 && srActiveIdx < srResults.length) {
+                navigateToResult(srResults[srActiveIdx]);
+            }
+        }
+    }
+});
+
+function updateActiveResult() {
+    srBody.querySelectorAll('.sr-item').forEach((el, i) => {
+        el.classList.toggle('sr-active', i === srActiveIdx);
+    });
+    const active = srBody.querySelector('.sr-active');
+    if (active) active.scrollIntoView({ block: 'nearest' });
+}
+
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+function highlightSnippet(text, query, maxLen) {
+    const lower = text.toLowerCase();
+    const qLower = query.toLowerCase();
+    const pos = lower.indexOf(qLower);
+    if (pos < 0) return text.substring(0, maxLen);
+
+    const pad = Math.floor((maxLen - query.length) / 2);
+    let start = Math.max(0, pos - pad);
+    let end = Math.min(text.length, pos + query.length + pad);
+    let snippet = text.substring(start, end);
+    if (start > 0) snippet = '...' + snippet;
+    if (end < text.length) snippet = snippet + '...';
+
+    const re = new RegExp('(' + escapeRegex(query) + ')', 'gi');
+    return snippet.replace(re, '<mark>$1</mark>');
+}
+
+let searchTimer = null;
+searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(runSearch, 120);
+});
+
+function runSearch() {
+    const query = searchInput.value.trim();
+    if (query.length < 2) {
+        srBody.innerHTML = '<div class="sr-empty">Type at least 2 characters</div>';
+        srCount.textContent = '';
+        srResults = [];
+        srActiveIdx = -1;
+        return;
+    }
+
+    const qLower = query.toLowerCase();
+    const matches = [];
+    const seen = new Set();
+
+    for (const entry of searchIndex) {
+        if (entry.text.toLowerCase().includes(qLower)) {
+            const key = entry.tabIdx + ':' + entry.heading + ':' + entry.text.substring(0, 80);
+            if (seen.has(key)) continue;
+            seen.add(key);
+            matches.push(entry);
+            if (matches.length >= 100) break;
+        }
+    }
+
+    srResults = matches;
+    srActiveIdx = matches.length > 0 ? 0 : -1;
+
+    if (matches.length === 0) {
+        srBody.innerHTML = '<div class="sr-empty">No results for "' +
+            query.replace(/</g,'&lt;') + '"</div>';
+        srCount.textContent = '0 results';
+        return;
+    }
+
+    srCount.textContent = matches.length >= 100 ? '100+ results' : matches.length + ' result' + (matches.length > 1 ? 's' : '');
+
+    let html = '';
+    matches.forEach((m, i) => {
+        const snippet = highlightSnippet(m.text, query, 160);
+        html += '<div class="sr-item' + (i === 0 ? ' sr-active' : '') + '" data-ridx="' + i + '">';
+        html += '<div class="sr-item-tab">' + m.tabName + '</div>';
+        if (m.heading) html += '<div class="sr-item-heading">' + m.heading.replace(/</g,'&lt;') + '</div>';
+        html += '<div class="sr-item-snippet">' + snippet + '</div>';
+        html += '</div>';
+    });
+    srBody.innerHTML = html;
+
+    srBody.querySelectorAll('.sr-item').forEach(el => {
+        el.addEventListener('click', () => {
+            const idx = parseInt(el.dataset.ridx, 10);
+            navigateToResult(srResults[idx]);
+        });
+    });
+}
+
+function navigateToResult(result) {
+    const savedQuery = searchInput.value.trim() || result.text.substring(0, 20);
+    closeSearch();
+    activateTab(result.tabIdx, false);
+
+    requestAnimationFrame(() => {
+        clearHighlights();
+        const panel = document.getElementById('panel-' + result.tabIdx);
+        const qLower = savedQuery.toLowerCase();
+        const qLen = savedQuery.length;
+
+        const hits = [];
+        const walker = document.createTreeWalker(panel, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+            const node = walker.currentNode;
+            const idx = node.textContent.toLowerCase().indexOf(qLower);
+            if (idx >= 0) {
+                hits.push({ node: node, offset: idx });
+            }
+        }
+
+        let firstMark = null;
+        for (let i = hits.length - 1; i >= 0; i--) {
+            const h = hits[i];
+            const range = document.createRange();
+            range.setStart(h.node, h.offset);
+            range.setEnd(h.node, h.offset + qLen);
+            const mark = document.createElement('span');
+            mark.className = 'search-highlight';
+            mark.dataset.searchHighlight = '1';
+            try { range.surroundContents(mark); firstMark = mark; } catch(e) {}
+        }
+
+        if (firstMark) {
+            firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        setTimeout(clearHighlights, 6000);
+    });
+}
+
+function clearHighlights() {
+    document.querySelectorAll('[data-search-highlight]').forEach(el => {
+        const parent = el.parentNode;
+        parent.replaceChild(document.createTextNode(el.textContent), el);
+        parent.normalize();
+    });
+}
+
+/* ───── Sidebar TOC + scroll spy ───── */
+
+const sidebarNav = document.getElementById('sidebarNav');
+const navList = document.getElementById('navList');
+const sidebarToggle = document.getElementById('sidebarToggle');
+let currentTocHeadings = [];
+
+function buildToc(panelIdx) {
+    navList.innerHTML = '';
+    currentTocHeadings = [];
+    const panel = document.getElementById('panel-' + panelIdx);
+    if (!panel) return;
+    const headings = panel.querySelectorAll('h1, h2, h3, h4');
+    headings.forEach((h, i) => {
+        if (!h.id) h.id = 'autoid-' + panelIdx + '-' + i;
+        const level = h.tagName.substring(1);
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        a.className = 'nav-h' + level;
+        a.title = h.textContent;
+        a.dataset.headingId = h.id;
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        li.appendChild(a);
+        navList.appendChild(li);
+        currentTocHeadings.push({ el: h, link: a });
+    });
+    updateScrollSpy();
+}
+
+let spyRaf = null;
+function updateScrollSpy() {
+    if (spyRaf) return;
+    spyRaf = requestAnimationFrame(() => {
+        spyRaf = null;
+        if (currentTocHeadings.length === 0) return;
+        const scrollY = window.scrollY;
+        const offset = 80;
+        let activeEntry = currentTocHeadings[0];
+        for (const entry of currentTocHeadings) {
+            if (entry.el.offsetTop <= scrollY + offset) {
+                activeEntry = entry;
+            } else {
+                break;
+            }
+        }
+        currentTocHeadings.forEach(e => e.link.classList.remove('nav-active'));
+        if (activeEntry) {
+            activeEntry.link.classList.add('nav-active');
+            const linkTop = activeEntry.link.offsetTop;
+            const navH = sidebarNav.clientHeight;
+            const navScroll = sidebarNav.scrollTop;
+            if (linkTop < navScroll + 40 || linkTop > navScroll + navH - 40) {
+                sidebarNav.scrollTo({ top: linkTop - navH / 3, behavior: 'smooth' });
+            }
+        }
+    });
+}
+
+window.addEventListener('scroll', updateScrollSpy, { passive: true });
+
+/* ───── iOS-style condensing navbar (hide on scroll down, show on scroll up) ───── */
+function updateNavCondense() {
+    const y = window.scrollY;
+    const NAV_TOP = 8;       // always expanded near the very top
+    const NAV_TRIGGER = 72;  // must scroll past this before condensing
+    const DELTA = 5;         // ignore tiny jitters
+    if (y <= NAV_TOP) {
+        document.body.classList.remove('nav-condensed');
+    } else if (y > navLastY + DELTA && y > NAV_TRIGGER) {
+        document.body.classList.add('nav-condensed');   // scrolling down
+    } else if (y < navLastY - DELTA) {
+        document.body.classList.remove('nav-condensed'); // scrolling up
+    }
+    navLastY = y;
+}
+window.addEventListener('scroll', updateNavCondense, { passive: true });
+
+function toggleSidebar() {
+    const collapsed = sidebarNav.classList.toggle('collapsed');
+    document.body.classList.toggle('sidebar-collapsed', collapsed);
+}
+
+sidebarToggle.addEventListener('click', toggleSidebar);
+
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'b' && !overlay.classList.contains('open')) {
+        e.preventDefault();
+        toggleSidebar();
+    }
+});
+
+/* ───── Anchor + cross-document link interception ───── */
+
+/* Find an element by id, preferring the given panel (heading ids can collide
+   across documents because each file is converted independently). */
+function findById(id, preferredPanel) {
+    if (preferredPanel) {
+        const scoped = preferredPanel.querySelector('[id="' + id.replace(/(["\\])/g, '\\$1') + '"]');
+        if (scoped) return scoped;
+    }
+    return document.getElementById(id);
+}
+
+function scrollToTarget(target) {
+    requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+}
+
+function gotoAnchor(idx, anchor) {
+    activateTab(idx, !anchor);
+    const panel = document.getElementById('panel-' + idx);
+    if (anchor) {
+        const target = findById(anchor, panel);
+        if (target) { scrollToTarget(target); return; }
+    }
+}
+
+document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    // In-page anchor: resolve within the panel that owns the link first.
+    if (href.charAt(0) === '#') {
+        const id = href.substring(1);
+        if (!id) return;
+        const ownerPanel = link.closest('.tab-content');
+        const target = findById(id, ownerPanel);
+        if (target) {
+            e.preventDefault();
+            const dest = target.closest('.tab-content');
+            if (dest) {
+                const m = dest.id.match(/^panel-(\d+)$/);
+                if (m) activateTab(parseInt(m[1], 10), false);
+            }
+            scrollToTarget(target);
+        }
+        return;
+    }
+
+    // Cross-document link to another bundled doc (file or folder), optionally #anchor.
+    const md = mdTarget(href, baseDirOf(link));
+    if (md) {
+        e.preventDefault();
+        gotoAnchor(md.idx, md.anchor);
+    }
+});
+
+/* ───── Startup ───── */
+/* - Nagesh N Nazare - */
+
+const hash = location.hash || '';
+const tabMatch = hash.match(/^#tab-(\d+)$/);
+if (tabMatch) {
+    activateTab(Math.min(parseInt(tabMatch[1], 10), TAB_DATA.length - 1));
+} else if (hash.length > 1) {
+    const targetId = hash.substring(1);
+    const target = document.getElementById(targetId);
+    if (target) {
+        const panels = document.querySelectorAll('.tab-content');
+        for (let i = 0; i < panels.length; i++) {
+            if (panels[i].contains(target)) {
+                activateTab(i, false);
+                requestAnimationFrame(() => {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+                break;
+            }
+        }
+    } else {
+        activateTab(0);
+    }
+} else {
+    activateTab(0);
+}
+</script>
+
+</body>
+</html>
